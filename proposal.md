@@ -1,5 +1,12 @@
 # Motivation and purpose
 
+Our role: Data science insight firm
+
+Target audience: Sales analyst
+
+Video games started off as a method of entertainment for children, but with the course of time, and with the development of technologies such as gaming consoles, video graphics and computational processes, it has evolved attract users from every age groups, and every walks of life. At the beginning only a handful of companies created video games and it was categorized as niche, or supplementary. But fast forward today, the electronic gaming industry generated over $165 billion in 2020 alone. To stay ahead in this multi-billion dollar industry, thinking of only plots, story lines and charismatic characters with flashy costumes is not enough. Analysts, researchers and critics play a great role advocating changes which aids companies to come up with game-winning plans and ideas.
+We are here with our app to make the jobs of sales analysts easy, where they do not need to go through messy datasets and spending hours exploring trends and insights. Our app will show the distribution of driving factors contributing to video games sales and allow analuysts to explore different aspects by filtering and re-ordering over several variables to compare factors that contribute to sales.
+
 # Description of the data
 
 This is a data set from [Kaggle](https://www.kaggle.com/sidtwr/videogames-sales-dataset?select=PS4_GamesSales.csv) about sales of PS4 video games. There are 1031 observations regarding name of video games, year of release, genre, publisher, and 5 binary variables (North America, Europe, Japan, Rest of World, and Global) to indicate the sales in these 5 regions.  
