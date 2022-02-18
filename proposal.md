@@ -9,7 +9,25 @@ We are here with our app to make the jobs of sales analysts easy, where they do 
 
 # Description of the data
 
-This is a data set from [Kaggle](https://www.kaggle.com/sidtwr/videogames-sales-dataset?select=PS4_GamesSales.csv) about sales of PS4 video games. There are 1031 observations regarding name of video games, year of release, genre, publisher, and 5 binary variables (North America, Europe, Japan, Rest of World, and Global) to indicate the sales in these 5 regions.  
+This is a data set from [Kaggle](https://www.kaggle.com/sidtwr/videogames-sales-dataset?select=Video_Games_Sales_as_at_22_Dec_2016.csv) about sales of video games. There are 11563 observations in the data. Variables included in the dataset are listed below.
+
+- `Name`: The name of the video games
+- `Platform`: The platform of the video games (e.g. PS4, X360, Wii, etc.)
+- `Year_of_Release`:Tthe year of release of the video games
+- `Genre`: The genere of the video games (e.g. action, sports, etc.)
+- `Publisher`: The publisher of the video games
+- `NA_Sales`: A binary variable indicating sales of the video games in North America
+- `EU_Sales`: A binary variable indicating sales of the video games in Europe
+- `JP_Sales`: A binary variable indicating sales of the video games in Japan
+- `Other_Sales`: A binary variable indicating sales of the video games in other regions
+- `Global_Sales`: A binary variable indicating global sales of the video games
+- `Critic_Score`: The aggregate score compiled by Metacritic staff 
+- `Critic_Count`: The number of critics used in coming up with Critic_Score
+- `User_Score`: The score by Metacritic's subscribers
+- `User_Count`: The number of users who gave User_Score
+- `Developer`: Party responsible for creating the game
+- `Rating`: The ESRB ratings
+ 
 
 # Research questions and usage scenarios 
 
