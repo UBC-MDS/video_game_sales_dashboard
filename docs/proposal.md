@@ -8,7 +8,7 @@ Target audience: Sales Analysts
 
 Video games started off as a method of entertainment for children, but with the course of time, and with the development of technologies such as gaming consoles, video graphics and computational processes, it has evolved attract users from every age groups, and every walks of life. At the beginning only a handful of companies created video games and it was categorized as niche, or supplementary. But fast forward today, the electronic gaming industry generated over $165 billion in 2020 alone. To stay ahead in this multi-billion dollar industry, thinking of only plots, story lines and charismatic characters with flashy costumes is not enough. Analysts, researchers and critics play a great role advocating changes which aids companies to come up with game-winning plans and ideas.
 
-We are here with our app to make the jobs of sales analysts easy, where they do not need to go through messy datasets and spending hours exploring trends and insights. Our app will show the the sales trends for each region and picture the competitive landscape for sales analyst.  
+We are here with our app to make the jobs of sales analysts easy, where they do not need to go through messy datasets and spending hours exploring trends and insights. Our app will show the the sales trends for each region and picture the competitive landscape for sales analysts.  
 
 ## Data Description
 
