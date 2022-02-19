@@ -1,13 +1,13 @@
 Video Game Sales Analytics Dashboard
 ================
-Amelia Tang,Alex Yinan Guo,Yike Shi, andMahmoodur Rahman
+Amelia Tang,Alex Yinan Guo,Yike Shi, and Mahmoodur Rahman
 
 ## Background
 
 Electronic video games in 2020 generated a revenue of around $165
 billion. To thrive in this competitive industry, video game companies
 have sales analysts who need to keep their eyes on stats relating to
-sales. Our dashboard can easily present the necessary stats relating to
+sales and competitive landscapes. Our dashboard can easily present the necessary stats relating to
 video games sales, by a user-friendly interface.
 
 ## Data
@@ -16,7 +16,7 @@ The data used in this dashboard is drawn from
 [Kaggle](https://www.kaggle.com/sidtwr/videogames-sales-dataset?select=Video_Games_Sales_as_at_22_Dec_2016.csv),
 which has 11563 observations.
 
-## Methodlogy
+## Methodology
 
 The dashboard performs exploratory data analysis by filtering several
 traits such as `Platform`, `Year_of_Release`, `Genre`, `Publisher`,
