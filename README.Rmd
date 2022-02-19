@@ -1,10 +1,6 @@
 ---
 title: "Video Game Sales Analytics Dashboard"
-author: 
- - Amelia Tang,  
- - Alex Yinan Guo,  
- - Yike Shi, and 
- - Mahmoodur Rahman
+author: Amelia Tang, Alex Yinan Guo,  Yike Shi, and Mahmoodur Rahman
 output:
   github_document: default
 knit: (function(inputFile, encoding) {
@@ -31,6 +27,12 @@ The dashboard performs exploratory data analysis by filtering several traits suc
 More in details in our [proposal](docs/proposal.md).
 
 ## Design
+
+#### Description
+
+The app contains a landing page that by default shows the North America sales line plot for PlayStation4, top publishers in the most recent years for PlayStation4, top genres for the most recent years for PlayStation4, a chart shows market share of the major players in the industry in the most recent year and an average critic score of PlayStation4 in the most recent year. On the top of the page, a user can use the tabs to navigate between the North America and global sales to show sales trends in North America, other regions (under the `global` tab), and the sales trend globally (under the `global` tab). Moreover, a user can use the year slider under the sales line plot to choose the range of years of sales he/she would like to view. From the filter on the side bar, a user can choose to show sales of different companies, including but not limited to PS4, Xbox and Wii. In addition, a user can also use the drop down menus on the side bar to choose the year of top publishers, top genres, market share and average critic score he/she would like to view. At the bottom of the `Top Genre` and `Top Publisher` charts, a user can choose how many top genres or publishers he/she want to see from 5 to 10.         
+
+#### Sketch
 
 ```{r design, echo=FALSE, out.width="100%"}
 knitr::include_graphics("Video_Games_Dashboard_Sketch.jpg")
