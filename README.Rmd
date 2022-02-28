@@ -35,7 +35,7 @@ The app contains a landing page that by default shows the North America sales li
 #### Sketch
 
 ```{r design, echo=FALSE, out.width="100%"}
-knitr::include_graphics("Video_Games_Dashboard_Sketch.jpg")
+knitr::include_graphics("src/fig/Video_Games_Dashboard_Sketch.jpg")
 ```
 
 ## Contributing to this Dashboard
