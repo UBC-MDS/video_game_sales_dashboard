@@ -47,7 +47,7 @@ to see from 5 to 10.
 
 #### Sketch
 
-<img src="Video_Games_Dashboard_Sketch.jpg" width="100%" />
+<img src="src/fig/Video_Games_Dashboard_Sketch.jpg" width="100%" />
 
 ## Contributing to this Dashboard
 
