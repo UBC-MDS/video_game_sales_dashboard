@@ -1,7 +1,5 @@
-pandas
 gunicorn
-altair
 dash
 dash_bootstrap_components
 numpy
-vega_datasets
+plotly
