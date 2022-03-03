@@ -8,7 +8,6 @@ url = "https://raw.githubusercontent.com/UofTCoders/workshops-dc-py/master/data/
 df = pd.read_csv(url, parse_dates = ['year'])
 
 def plot_chart(year = "1962", df=df.copy()):
-    # Filter data for a year
     df = df.query(f'year == {year}')
 
     chart = alt.Chart(df).mark_circle().encode(
