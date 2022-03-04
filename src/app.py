@@ -78,15 +78,7 @@ studio_graphs = dbc.CardDeck(
             ],
             color="info",
             outline=True,
-        ),
-        dbc.Card(
-            [
-                dbc.CardHeader(html.H4(id="table-title")),
-                dbc.CardBody([html.Div(id="movies-data-frame")]),
-            ],
-            color="info",
-            outline=True,
-        ),
+        )
     ]
 )
 
