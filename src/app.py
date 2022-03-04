@@ -40,54 +40,6 @@ CONTENT_STYLE = {
     "z-index": -1,
 }
 
-
-cards = dbc.CardDeck(
-    [
-        dbc.Card(
-            dbc.CardBody(
-                [
-                    html.H6("Average Vote", className="card-title"),
-                    html.H4(id="average-vote", className="card-text"),
-                ]
-            ),
-            color="primary",
-            outline=True,
-        ),
-        dbc.Card(
-            dbc.CardBody(
-                [
-                    html.H6("Average Vote Count", className="card-title"),
-                    html.H4(id="vote-count", className="card-text"),
-                ]
-            ),
-            color="primary",
-            outline=True,
-        ),
-        dbc.Card(
-            dbc.CardBody(
-                [
-                    html.H6("Average Box Office Value", className="card-title"),
-                    html.H4(id="average-revenue", className="card-text"),
-                ]
-            ),
-            color="primary",
-            outline=True,
-        ),
-        dbc.Card(
-            dbc.CardBody(
-                [
-                    html.H6("Average Profit", className="card-title"),
-                    html.H4(id="average-profit", className="card-text"),
-                ]
-            ),
-            color="primary",
-            outline=True,
-        ),
-
-    ]
-)
-
-
 genre_graphs = dbc.CardDeck(
     [
         dbc.Card(
@@ -161,7 +113,6 @@ studio_guide_bar = dbc.Card(
 
 content = html.Div(
     [
-        cards,
         html.Br(),
         genre_graphs,
         html.Br(),
