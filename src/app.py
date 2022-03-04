@@ -15,7 +15,7 @@ pio.templates.default = "simple_white"
 
 
 # Read in global data
-movies = pd.read_csv("data/processed/movies.csv")
+movies = pd.read_csv("../data/processed/videoGame.csv")
 
 # Setup app and layout/frontend
 app = dash.Dash(
@@ -39,6 +39,43 @@ CONTENT_STYLE = {
     "padding": "2rem 1rem",
     "z-index": -1,
 }
+
+
+cards = dbc.CardDeck(
+    [
+        dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H6("Average User Score", className="card-title"),
+                    html.H4(id="average-vote", className="card-text"),
+                ]
+            ),
+            color="primary",
+            outline=True,
+        ),
+        dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H6("Average User Count", className="card-title"),
+                    html.H4(id="vote-count", className="card-text"),
+                ]
+            ),
+            color="primary",
+            outline=True,
+        ),
+        dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H6("Average Sales", className="card-title"),
+                    html.H4(id="average-revenue", className="card-text"),
+                ]
+            ),
+            color="primary",
+            outline=True,
+        ),
+    ]
+)
+
 
 genre_graphs = dbc.CardDeck(
     [
@@ -92,15 +129,16 @@ studio_graphs = dbc.CardDeck(
 
 content = html.Div(
     [
+        cards,
+        html.Br(),
         genre_graphs,
         html.Br(),
         studio_graphs,
         html.Hr(),
         dcc.Markdown(
             """
-            This app was made by Group7 Consulting Co using [data](https://github.com/UBC-MDS/Movie_Selection/blob/main/data/raw/lab2-movies.json) compiled from a [Kaggle dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset?select=movies_metadata.csv) by [Joel Ostblom](https://github.com/joelostblom) with permission. 
-            Our team includes [Alex](https://github.com/athy9193), [Asma](https://github.com/anodaini), [Peter](https://github.com/xudongyang2) and [Vignesh](https://github.com/vigneshRajakumar).
-            The app follows [MIT's license](https://github.com/UBC-MDS/Movie_Selection/blob/main/LICENSE) and the source code can be found on [GitHub](https://github.com/UBC-MDS/Movie_Selection).
+            This app was made by Group 20 Consulting Co using [Kaggle dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset?select=movies_metadata.csv). Our team is composed of [Person 1](https://person1), [Person 2](https://person2), [Person 3](https://person3) and [Mahmoodur Rahman](https://www.linkedin.com/in/drmrahman/).
+            The app follows [MIT's license](https://github.com/UBC-MDS/video_game_sales_dashboard/blob/main/LICENSE) and the source code can be found on [GitHub](https://github.com/UBC-MDS/video_game_sales_dashboard).
             """
         ),
         html.P(
@@ -116,10 +154,11 @@ controls = dbc.Card(
     [
         dbc.FormGroup(
             [
-                dbc.Label("Genre"),
+                dbc.Label("Platform"),
                 dcc.Dropdown(
                     id="xgenre-widget",
-                    value="Horror",  # REQUIRED to show the plot on the first page load
+                    value=[]",  # REQUIRED to show the plot on the first page load
+                    multi=True,
                     options=[
                         {"label": col, "value": col}
                         for col in movies["genres"].unique()
@@ -130,17 +169,20 @@ controls = dbc.Card(
         ),
         dbc.FormGroup(
             [
-                dbc.Label("Budget Range (US$ mil)"),
+                dbc.Label("Year Range (US$ mil)"),
                 dcc.RangeSlider(
                     id="xbudget-widget",
-                    min=10,
-                    max=300,
-                    value=[10, 300],
+                    min=1985,
+                    max=2016,
+                    value=[1985, 2016,
                     marks={
-                        10: "10",
-                        100: "100",
-                        200: "200",
-                        300: "300",
+                        1985: "19",
+                        1990: "1990",
+                        1995: "1995",
+                        2000: "2000",
+                        2005: "2005",
+                        2010: "2010",
+                        2016: "2016",
                     },
                 ),
             ]
@@ -152,12 +194,12 @@ controls = dbc.Card(
 
 sidebar = html.Div(
     [
-        html.H2("Movie Selection", className="display-4"),
+        html.H2("Video Games Sales Analytics App", className="display-4"),
         html.Hr(),
         controls,
         html.Hr(),
         html.P(
-            "A data visualization app that allows decision makers in the streaming companies to explore a dataset of movies to determine the popular movies that they need to provide to their users",
+            "The app is designed to allow sales analyst of video game companies to identify sales trends and understand competitive landscape.",
             className="lead",
         ),
     ],
@@ -198,6 +240,7 @@ def app_builder(
     xgenre, budget, revenue_selected, vote_selected
 ):  
     """The function to return all call-back for the app given inputs from end-users
+
     Parameters
     ----------
     xgenre : str
@@ -208,6 +251,7 @@ def app_builder(
         the name of the studio selected under revenue plot
     vote_selected : str
         the name of the studio selected under vote plot
+
     Returns
     -------
     figure/plot object
@@ -221,17 +265,16 @@ def app_builder(
     """
     
     studios_by_revenue = (
-        movies.groupby("studios")["revenue"].median().sort_values().index.tolist()
+        movies.groupby("Platform")["Global"].median().sort_values().index.tolist()
     )
-    filtered_movies = movies[movies["genres"] == xgenre].query(
+    filtered_movies = movies[movies["Platform"] == xgenre].query(
         "@budget[0] < budget and budget < @budget[1]"
     )
 
     # Cards
-    average_revenue = "US${:,.2f} mil".format(filtered_movies["revenue"].mean())
-    average_profit = "US${:,.2f} mil".format(filtered_movies["profit"].mean())
-    average_vote = str(round(filtered_movies["vote_average"].mean(), 1))
-    vote_count = str(round(filtered_movies["vote_count"].mean()))
+    average_revenue = "US${:,.2f} mil".format(filtered_movies["Global"].mean())
+    average_vote = str(round(filtered_movies["User_Score"].mean(), 1))
+    vote_count = str(round(filtered_movies["User_Count"].mean()))
 
     # Genre graphs
     studios_list = []
@@ -243,25 +286,25 @@ def app_builder(
         revenue_list = [point["y"] for point in revenue_selected["points"]]
         studios_list += revenue_list
         studios_list = list(set(studios_list))
-        studios_str = "for the Studios: "
+        studios_str = "for the Platforms: "
         studios_str += ", ".join(studios_list)
     if vote_selected is not None:
         vote_list = [point["y"] for point in vote_selected["points"]]
         studios_list += vote_list
         studios_list = list(set(studios_list))
-        studios_str = "for the Studios: "
+        studios_str = "for the Platforms: "
         studios_str += ", ".join(studios_list)
 
     if not studios_list:
         studios_list = filtered_movies.studios.unique()
 
-    studio_movies = filtered_movies[filtered_movies["studios"].isin(studios_list)]
+    studio_movies = filtered_movies[filtered_movies["Platform"].isin(studios_list)]
 
     vote_chart = px.box(
         filtered_movies,
         x="vote_average",
-        y="studios",
-        labels={"studios": "Studios", "vote_average": "Vote Average"},
+        y="Platform",
+        labels={"Platform": "Platform", "vote_average": "Vote Average"},
         boxmode='overlay',
         color=filtered_movies.studios.apply(color_map, args=(vote_list, revenue_list)),
         category_orders={'color': [0,1,2]},
@@ -278,7 +321,7 @@ def app_builder(
     )
 
     vote_chart.add_vline(
-        x=filtered_movies["vote_average"].mean(),
+        x=filtered_movies["User_Score"].mean(),
         line_width=3,
         line_dash="dash",
         line_color="green",
@@ -293,7 +336,7 @@ def app_builder(
         filtered_movies,
         x="revenue",
         y="studios",
-        labels={"studios": "Studios", "revenue": "Revenue (US$ mil)"},
+        labels={"Platform": "Platform", "Global": "Sales (US$ mil)"},
         boxmode='overlay',
         color=filtered_movies.studios.apply(color_map, args=(revenue_list, vote_list)),
         category_orders={'color': [0,1,2]},
@@ -310,7 +353,7 @@ def app_builder(
     )
 
     revenue_chart.add_vline(
-        x=filtered_movies["revenue"].mean(),
+        x=filtered_movies["Global"].mean(),
         line_width=3,
         line_dash="dash",
         line_color="green",
@@ -325,24 +368,24 @@ def app_builder(
     # Studio-specific graphs
     vote_scatter_chart = px.scatter(
         studio_movies,
-        x="vote_average",
-        y="vote_count",
-        labels={"vote_count": "Vote Count", "vote_average": "Vote Average"},
+        x="User_Score",
+        y="User_Count",
+        labels={"User_Count": "User Count", "User_Score": "Average Score"},
         hover_name="title"
     )
 
-    top_movies_df = (studio_movies.drop_duplicates(subset = ["title"]).nlargest(15, ["vote_average"]))[
-        ["title", "vote_average", "profit", "runtime"]
+    top_movies_df = (studio_movies.drop_duplicates(subset = ["Game"]).nlargest(15, ["User_Score"]))[
+        ["Game", "User_Score", "Global", "Platform"]
     ]
 
     top_movies_df.profit = round(top_movies_df.profit, 2)
     top_movies_df.vote_average = round(top_movies_df.vote_average, 2)
     top_movies_df.rename(
         columns={
-            "title": "Title",
-            "vote_average": "Vote Average",
-            "profit": "Profit (US$ mil)",
-            "runtime": "Runtime (min)",
+            "Game": "Title",
+            "User_Score": "Vote Average",
+            "Global": "Sales (US$ mil)",
+            "Platform": "Platform",
         },
         inplace=True,
     )
@@ -361,7 +404,6 @@ def app_builder(
         f"Most Popular {xgenre} Movies (by Vote Average) {studios_str}",
         average_vote,
         vote_count,
-        average_profit,
         dt.DataTable(
             data = top_movies_df.to_dict('rows'),
             columns = [{"id": x, "name": x} for x in top_movies_df.columns],
