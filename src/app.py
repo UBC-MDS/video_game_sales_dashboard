@@ -1,84 +1,103 @@
-import time
-
 import dash
 import dash_bootstrap_components as dbc
-import numpy as np
-import plotly.graph_objs as go
-from dash import Input, Output, dcc, html
+import dash_html_components as html
+import dash_core_components as dcc
+import plotly.express as px
+from dash.dependencies import Input, Output
+import pandas as pd
 
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+# data source: https://www.kaggle.com/chubak/iranian-students-from-1968-to-2017
+# data owner: Chubak Bidpaa
+df = pd.read_csv('https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Side-Bar/iranian_students.csv')
 
-app.layout = dbc.Container(
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+
+# styling the sidebar
+SIDEBAR_STYLE = {
+    "position": "fixed",
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
+    "width": "16rem",
+    "padding": "2rem 1rem",
+    "background-color": "#f8f9fa",
+}
+
+# padding for the page content
+CONTENT_STYLE = {
+    "margin-left": "18rem",
+    "margin-right": "2rem",
+    "padding": "2rem 1rem",
+}
+
+sidebar = html.Div(
     [
-        dcc.Store(id="store"),
-        html.H1("Dynamically rendered tab content"),
+        html.H2("Sidebar", className="display-4"),
         html.Hr(),
-        dbc.Button(
-            "Regenerate graphs",
-            color="primary",
-            id="button",
-            className="mb-3",
+        html.P(
+            "Number of students per education level", className="lead"
         ),
-        dbc.Tabs(
+        dbc.Nav(
             [
-                dbc.Tab(label="Scatter", tab_id="scatter"),
-                dbc.Tab(label="Histograms", tab_id="histogram"),
+                dbc.NavLink("Home", href="/", active="exact"),
+                dbc.NavLink("Page 1", href="/page-1", active="exact"),
+                dbc.NavLink("Page 2", href="/page-2", active="exact"),
             ],
-            id="tabs",
-            active_tab="scatter",
+            vertical=True,
+            pills=True,
         ),
-        html.Div(id="tab-content", className="p-4"),
-    ]
+    ],
+    style=SIDEBAR_STYLE,
 )
+
+content = html.Div(id="page-content", children=[], style=CONTENT_STYLE)
+
+app.layout = html.Div([
+    dcc.Location(id="url"),
+    sidebar,
+    content
+])
 
 
 @app.callback(
-    Output("tab-content", "children"),
-    [Input("tabs", "active_tab"), Input("store", "data")],
+    Output("page-content", "children"),
+    [Input("url", "pathname")]
 )
-def render_tab_content(active_tab, data):
-    """
-    This callback takes the 'active_tab' property as input, as well as the
-    stored graphs, and renders the tab content depending on what the value of
-    'active_tab' is.
-    """
-    if active_tab and data is not None:
-        if active_tab == "scatter":
-            return dcc.Graph(figure=data["scatter"])
-        elif active_tab == "histogram":
-            return dbc.Row(
-                [
-                    dbc.Col(dcc.Graph(figure=data["hist_1"]), width=6),
-                    dbc.Col(dcc.Graph(figure=data["hist_2"]), width=6),
+def render_page_content(pathname):
+    if pathname == "/":
+        return [
+                html.H1('Kindergarten in Iran',
+                        style={'textAlign':'center'}),
+                dcc.Graph(id='bargraph',
+                         figure=px.bar(df, barmode='group', x='Years',
+                         y=['Girls Kindergarten', 'Boys Kindergarten']))
                 ]
-            )
-    return "No tab selected"
-
-
-@app.callback(Output("store", "data"), [Input("button", "n_clicks")])
-def generate_graphs(n):
-    """
-    This callback generates three simple graphs from random data.
-    """
-    if not n:
-        # generate empty graphs when app loads
-        return {k: go.Figure(data=[]) for k in ["scatter", "hist_1", "hist_2"]}
-
-    # simulate expensive graph generation process
-    time.sleep(2)
-
-    # generate 100 multivariate normal samples
-    data = np.random.multivariate_normal([0, 0], [[1, 0.5], [0.5, 1]], 100)
-
-    scatter = go.Figure(
-        data=[go.Scatter(x=data[:, 0], y=data[:, 1], mode="markers")]
+    elif pathname == "/page-1":
+        return [
+                html.H1('Grad School in Iran',
+                        style={'textAlign':'center'}),
+                dcc.Graph(id='bargraph',
+                         figure=px.bar(df, barmode='group', x='Years',
+                         y=['Girls Grade School', 'Boys Grade School']))
+                ]
+    elif pathname == "/page-2":
+        return [
+                html.H1('High School in Iran',
+                        style={'textAlign':'center'}),
+                dcc.Graph(id='bargraph',
+                         figure=px.bar(df, barmode='group', x='Years',
+                         y=['Girls High School', 'Boys High School']))
+                ]
+    # If the user tries to reach a different page, return a 404 message
+    return dbc.Jumbotron(
+        [
+            html.H1("404: Not found", className="text-danger"),
+            html.Hr(),
+            html.P(f"The pathname {pathname} was not recognised..."),
+        ]
     )
-    hist_1 = go.Figure(data=[go.Histogram(x=data[:, 0])])
-    hist_2 = go.Figure(data=[go.Histogram(x=data[:, 1])])
-
-    # save figures in a dictionary for sending to the dcc.Store
-    return {"scatter": scatter, "hist_1": hist_1, "hist_2": hist_2}
 
 
-if __name__ == "__main__":
-    app.run_server(debug=True, port=8888)
+if __name__=='__main__':
+    app.run_server(debug=True, port=3000)
