@@ -1,7 +1,7 @@
-pandas
-numpy
-gunicorn
 altair
-dash == 2.0
+dash
+numpy
+pandas
 dash_bootstrap_components
-plotly==5.0.0
+plotly
+gunicorn
