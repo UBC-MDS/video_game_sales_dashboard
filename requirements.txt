@@ -1,5 +1,4 @@
 gunicorn
-time
 dash
 dash_bootstrap_components
 numpy
