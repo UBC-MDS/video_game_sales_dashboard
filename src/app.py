@@ -94,40 +94,54 @@ def na_publisher_chart(year, rownum):
     return chart.to_html()
 
 def global_market_share_plot(year):
-    global_sales = (
-        summary.groupby(["tag", "Year"]).sum()[["North America"]].reset_index()
-    )
-    global_sales_year = global_sales[global_sales.iloc[:, 1] == year].replace(
+    global_sales = summary.groupby(["tag", "Year"]).sum()[["Global"]].reset_index()
+    global_sales_year = global_sales[global_sales["Year"] == year].replace(
         "Video Games", "Others"
     )
     global_sales_year["percent"] = (
-        global_sales_year["North America"] / global_sales_year["North America"].sum()
+        round(
+            (global_sales_year["Global"] / global_sales_year["Global"].sum() * 100), 2
+        ).astype(str)
+        + "%"
     )
     plot = (
         alt.Chart(global_sales_year, title="Market Shares of Companies")
         .mark_arc(innerRadius=70)
         .encode(
-            theta=alt.Theta(field="North America", type="quantitative"),
-            color=alt.Color(field="tag", type="nominal", legend=alt.Legend(title="Company")),
+            theta=alt.Theta(field="Global", type="quantitative"),
+            color=alt.Color(
+                field="tag", type="nominal", legend=alt.Legend(title="Company")
+            ),
             tooltip=["percent"],
         )
     )
     return plot.to_html()
 
 def na_market_share_plot(year):
-    na_sales = summary.groupby(["tag", "Year"]).sum()[["Global"]].reset_index()
-    na_sales_year = na_sales[na_sales.iloc[:, 1] == year].replace("Video Games", "Others")
-    na_sales_year["percent"] = na_sales_year["Global"] / na_sales["Global"].sum()
+    global_sales = summary.groupby(["tag", "Year"]).sum()[["North America"]].reset_index()
+    global_sales_year = global_sales[global_sales["Year"] == year].replace(
+        "Video Games", "Others"
+    )
+    global_sales_year["percent"] = (
+        round(
+            (global_sales_year["North America"] / global_sales_year["North America"].sum() * 100), 2
+        ).astype(str)
+        + "%"
+    )
     plot = (
-        alt.Chart(na_sales_year, title="Market Shares of Companies")
+        alt.Chart(global_sales_year, title="Market Shares of Companies")
         .mark_arc(innerRadius=70)
         .encode(
-            theta=alt.Theta(field="Global", type="quantitative"),
-            color=alt.Color(field="tag", type="nominal", legend=alt.Legend(title="Company")),
+            theta=alt.Theta(field="North America", type="quantitative"),
+            color=alt.Color(
+                field="tag", type="nominal", legend=alt.Legend(title="Company")
+            ),
             tooltip=["percent"],
         )
     )
     return plot.to_html()
+
+
 
 def global_critic_score_plot(year):
     score = (videoGame.groupby(["Platform", "Year"]).mean())[
@@ -221,7 +235,7 @@ sidebar = html.Div(
     ),
     dcc.Dropdown(
         id='market_share_year',
-        value=2016,  # REQUIRED to show the plot on the first page load
+        value=2013,  # REQUIRED to show the plot on the first page load
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
     html.P(
@@ -229,7 +243,7 @@ sidebar = html.Div(
     ),
     dcc.Dropdown(
         id='genre_year',
-        value=2016,  # REQUIRED to show the plot on the first page load
+        value=2013,  # REQUIRED to show the plot on the first page load
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
     html.P(
@@ -237,7 +251,7 @@ sidebar = html.Div(
     ),
     dcc.Dropdown(
         id='publisher_year',
-        value=2016,  # REQUIRED to show the plot on the first page load
+        value=2013,  # REQUIRED to show the plot on the first page load
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
     html.P(
@@ -245,7 +259,7 @@ sidebar = html.Div(
     ),
     dcc.Dropdown(
         id='critic_year',
-        value=2016,  # REQUIRED to show the plot on the first page load
+        value=2013,  # REQUIRED to show the plot on the first page load
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
     html.P(f"""
