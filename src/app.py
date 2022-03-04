@@ -98,8 +98,9 @@ content = html.Div(
         html.Hr(),
         dcc.Markdown(
             """
-             This app was made by Group 20 Consulting Co using [Kaggle dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset?select=movies_metadata.csv). Our team is composed of [Person 1](https://person1), [Person 2](https://person2), [Person 3](https://person3) and [Mahmoodur Rahman](https://www.linkedin.com/in/drmrahman/).
-            The app follows [MIT's license](https://github.com/UBC-MDS/video_game_sales_dashboard/blob/main/LICENSE) and the source code can be found on [GitHub](https://github.com/UBC-MDS/video_game_sales_dashboard).
+            This app was made by Group7 Consulting Co using [data](https://github.com/UBC-MDS/Movie_Selection/blob/main/data/raw/lab2-movies.json) compiled from a [Kaggle dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset?select=movies_metadata.csv) by [Joel Ostblom](https://github.com/joelostblom) with permission. 
+            Our team includes [Alex](https://github.com/athy9193), [Asma](https://github.com/anodaini), [Peter](https://github.com/xudongyang2) and [Vignesh](https://github.com/vigneshRajakumar).
+            The app follows [MIT's license](https://github.com/UBC-MDS/Movie_Selection/blob/main/LICENSE) and the source code can be found on [GitHub](https://github.com/UBC-MDS/Movie_Selection).
             """
         ),
         html.P(
@@ -115,12 +116,11 @@ controls = dbc.Card(
     [
         dbc.FormGroup(
             [
-                dbc.Label("Sales Trends"),
+                dbc.Label("Genre"),
                 dcc.Dropdown(
                     id="xgenre-widget",
-                    value=[],  # REQUIRED to show the plot on the first page load
-                    multi=True,
-                    options=[1
+                    value="Horror",  # REQUIRED to show the plot on the first page load
+                    options=[
                         {"label": col, "value": col}
                         for col in movies["genres"].unique()
                     ],
@@ -130,7 +130,7 @@ controls = dbc.Card(
         ),
         dbc.FormGroup(
             [
-                dbc.Label("Year Range"),
+                dbc.Label("Budget Range (US$ mil)"),
                 dcc.RangeSlider(
                     id="xbudget-widget",
                     min=10,
@@ -144,7 +144,7 @@ controls = dbc.Card(
                     },
                 ),
             ]
-        )
+        ),
     ],
     body=True,
     className="text-dark",
@@ -152,12 +152,12 @@ controls = dbc.Card(
 
 sidebar = html.Div(
     [
-        html.H2("Video Games Sales Analytics App", className="display-4"),
+        html.H2("Movie Selection", className="display-4"),
         html.Hr(),
         controls,
         html.Hr(),
         html.P(
-            "The app is designed to allow sales analyst of video game companies to identify sales trends and understand competitive landscape.",
+            "A data visualization app that allows decision makers in the streaming companies to explore a dataset of movies to determine the popular movies that they need to provide to their users",
             className="lead",
         ),
     ],
