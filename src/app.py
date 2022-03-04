@@ -78,7 +78,15 @@ studio_graphs = dbc.CardDeck(
             ],
             color="info",
             outline=True,
-        )
+        ),
+        dbc.Card(
+            [
+                dbc.CardHeader(html.H4(id="table-title")),
+                dbc.CardBody([html.Div(id="movies-data-frame")]),
+            ],
+            color="info",
+            outline=True,
+        ),
     ]
 )
 
@@ -139,20 +147,60 @@ controls = dbc.Card(
         ),
         dbc.FormGroup(
             [
-                dbc.Label("Sales Trends"),
+                dbc.Label("Market Share Year"),
                 dcc.Dropdown(
                     id="xgenre-widget",
                     value="Horror",  # REQUIRED to show the plot on the first page load
-                    multi=True,
-                    options=[1
+                    options=[
                         {"label": col, "value": col}
-                        for col in movies["genres"].unique()
+                        for col in games["Year"].unique()
                     ],
                     clearable=False,
                 ),
             ]
         ),
-        
+        dbc.FormGroup(
+            [
+                dbc.Label("Top Genres Year"),
+                dcc.Dropdown(
+                    id="xgenre-widget",
+                    value="Horror",  # REQUIRED to show the plot on the first page load
+                    options=[
+                        {"label": col, "value": col}
+                        for col in movies["Year"].unique()
+                    ],
+                    clearable=False,
+                ),
+            ]
+        ),
+        dbc.FormGroup(
+            [
+                dbc.Label("Top Publisher Year"),
+                dcc.Dropdown(
+                    id="xgenre-widget",
+                    value="Horror",  # REQUIRED to show the plot on the first page load
+                    options=[
+                        {"label": col, "value": col}
+                        for col in movies["Year"].unique()
+                    ],
+                    clearable=False,
+                ),
+            ]
+        ),
+        dbc.FormGroup(
+            [
+                dbc.Label("Critic Score Year"),
+                dcc.Dropdown(
+                    id="xgenre-widget",
+                    value="2010",  # REQUIRED to show the plot on the first page load
+                    options=[
+                        {"label": col, "value": col}
+                        for col in movies["Year"].unique()
+                    ],
+                    clearable=False,
+                ),
+            ]
+        ),
     ],
     body=True,
     className="text-dark",
@@ -206,7 +254,6 @@ def app_builder(
     xgenre, budget, revenue_selected, vote_selected
 ):  
     """The function to return all call-back for the app given inputs from end-users
-
     Parameters
     ----------
     xgenre : str
@@ -217,7 +264,6 @@ def app_builder(
         the name of the studio selected under revenue plot
     vote_selected : str
         the name of the studio selected under vote plot
-
     Returns
     -------
     figure/plot object
