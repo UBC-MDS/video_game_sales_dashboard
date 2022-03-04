@@ -19,7 +19,7 @@ movies = pd.read_csv("data/processed/movies.csv")
 
 # Setup app and layout/frontend
 app = dash.Dash(
-    __name__, title="Movie Selection", external_stylesheets=[dbc.themes.LUMEN]
+    __name__, title="Video Games Sales Analytics App", external_stylesheets=[dbc.themes.LUMEN]
 )
 server = app.server
 
@@ -90,33 +90,9 @@ studio_graphs = dbc.CardDeck(
     ]
 )
 
-
-studio_guide_bar = dbc.Card(
-    [
-        dbc.CardHeader(
-            dcc.Markdown(
-                """
-                To view the Voting Profile and Most popular movies for a particular studio, please click on its boxplot. 
-                The boxplot of studio you selected will be shaded in dark blue, the light blue shade will be for the corresponding change of the other chart.
-
-                To unselect the studios and revert to general view, please **double click** on the chart with the dark blue selected boxplots.
-
-                You can change the studio(s) of choice by clicking another boxplot or select multiple boxplots by pressing Shift while clicking on other boxplots.
-                        
-                """
-            )    
-        ),
-    ],
-    color="info",
-    outline=True,
-)
-
 content = html.Div(
     [
-        html.Br(),
         genre_graphs,
-        html.Br(),
-        studio_guide_bar,
         html.Br(),
         studio_graphs,
         html.Hr(),
