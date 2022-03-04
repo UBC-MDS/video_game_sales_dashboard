@@ -151,9 +151,10 @@ controls = dbc.Card(
                 dcc.Dropdown(
                     id="xgenre-widget",
                     value="Horror",  # REQUIRED to show the plot on the first page load
-                    options=[
+                    multi=True,
+                    options=[1
                         {"label": col, "value": col}
-                        for col in games["Year"].unique()
+                        for col in movies["genres"].unique()
                     ],
                     clearable=False,
                 ),
@@ -165,9 +166,10 @@ controls = dbc.Card(
                 dcc.Dropdown(
                     id="xgenre-widget",
                     value="Horror",  # REQUIRED to show the plot on the first page load
-                    options=[
+                    multi=True,
+                    options=[1
                         {"label": col, "value": col}
-                        for col in movies["Year"].unique()
+                        for col in movies["genres"].unique()
                     ],
                     clearable=False,
                 ),
@@ -179,9 +181,10 @@ controls = dbc.Card(
                 dcc.Dropdown(
                     id="xgenre-widget",
                     value="Horror",  # REQUIRED to show the plot on the first page load
-                    options=[
+                    multi=True,
+                    options=[1
                         {"label": col, "value": col}
-                        for col in movies["Year"].unique()
+                        for col in movies["genres"].unique()
                     ],
                     clearable=False,
                 ),
@@ -192,10 +195,11 @@ controls = dbc.Card(
                 dbc.Label("Critic Score Year"),
                 dcc.Dropdown(
                     id="xgenre-widget",
-                    value="2010",  # REQUIRED to show the plot on the first page load
-                    options=[
+                    value="Horror",  # REQUIRED to show the plot on the first page load
+                    multi=True,
+                    options=[1
                         {"label": col, "value": col}
-                        for col in movies["Year"].unique()
+                        for col in movies["genres"].unique()
                     ],
                     clearable=False,
                 ),
