@@ -7,6 +7,7 @@ import plotly.express as px
 import os
 import altair as alt
 import dash_bootstrap_components as dbc
+from datetime import datetime
 
 # Load data
 ps4 = pd.read_csv("../data/processed/ps4.csv").dropna()
@@ -57,20 +58,50 @@ CONTENT_STYLE = {
 
 sidebar = html.Div(
   [
-    html.H2("Video Game Analytics App", className="display-4", style={'color': 'black', 'fontSize': 30, 'text-align':'center'}),
+    html.H2("Video Game Sales Analytics App", className="display-4", style={'color': 'black', 'fontSize': 25, 'text-align':'center'}),
     html.Hr(),
     html.P(
-      "A dashboard to analyze sales of major players in the video game industry", className="lead"
+      "A dashboard to analyze sales of major players in the video game industry", className="lead", 
+      style={'color': 'black', 'fontSize': 18, 'text-align':'center'} 
     ),
     html.Hr(),
     html.P(
-      "Sales Trends", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
+      "Sales Trend Companies", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
     ),
     dcc.Dropdown(
       id = "company",
       options=[{'label': 'Xbox', 'value': 'xbox'},
       {'label': 'PlayStation4', 'value': 'ps4'}],
       value='ps4', multi=True),
+    html.Hr(),
+    html.P(
+      "Market Share Year", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
+    ),
+    html.Hr(),
+    html.P(
+      "Top Genres Year", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
+    ),
+    html.Hr(),
+    html.P(
+      "Top Publisher Year", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
+    ),
+    html.Hr(),
+    html.P(
+      "Critic Score Year", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
+    ),
+    html.Hr(),
+    html.P(f"""
+        This dashboard was made by Amelia Tang, 
+        Alex Yinan Guo, Yike Shi, and Mahmoodur Rahman.  
+        Last updated 2022-03-05.
+        License is in effect up to 
+        {datetime.now().date()}.
+        """, style={'color': 'black', 'fontSize': 12}  
+        ),
+    html.A("GitHub Repository",
+    href="https://github.com/UBC-MDS/video_game_sales_dashboard", target="_blank",
+    style={'color': 'black', 'fontSize': 12}
+    ),
     ],
     style=SIDEBAR_STYLE,
 )
