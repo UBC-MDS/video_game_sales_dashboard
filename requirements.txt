@@ -1,7 +1,6 @@
-pandas
 gunicorn
-altair
+time
 dash
 dash_bootstrap_components
 numpy
-vega_datasets
+plotly
