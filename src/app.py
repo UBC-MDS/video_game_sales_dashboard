@@ -120,7 +120,7 @@ controls = dbc.Card(
                     id="xgenre-widget",
                     value=[],  # REQUIRED to show the plot on the first page load
                     multi=True,
-                    options=[
+                    options=[1
                         {"label": col, "value": col}
                         for col in movies["genres"].unique()
                     ],
@@ -130,7 +130,7 @@ controls = dbc.Card(
         ),
         dbc.FormGroup(
             [
-                dbc.Label("Budget Range (US$ mil)"),
+                dbc.Label("Year Range"),
                 dcc.RangeSlider(
                     id="xbudget-widget",
                     min=10,
@@ -142,6 +142,62 @@ controls = dbc.Card(
                         200: "200",
                         300: "300",
                     },
+                ),
+            ]
+        ),
+        dbc.FormGroup(
+            [
+                dbc.Label("Market Share Year"),
+                dcc.Dropdown(
+                    id="xgenre-widget",
+                    value="Horror",  # REQUIRED to show the plot on the first page load
+                    options=[
+                        {"label": col, "value": col}
+                        for col in games["Year"].unique()
+                    ],
+                    clearable=False,
+                ),
+            ]
+        ),
+        dbc.FormGroup(
+            [
+                dbc.Label("Top Genres Year"),
+                dcc.Dropdown(
+                    id="xgenre-widget",
+                    value="Horror",  # REQUIRED to show the plot on the first page load
+                    options=[
+                        {"label": col, "value": col}
+                        for col in movies["Year"].unique()
+                    ],
+                    clearable=False,
+                ),
+            ]
+        ),
+        dbc.FormGroup(
+            [
+                dbc.Label("Top Publisher Year"),
+                dcc.Dropdown(
+                    id="xgenre-widget",
+                    value="Horror",  # REQUIRED to show the plot on the first page load
+                    options=[
+                        {"label": col, "value": col}
+                        for col in movies["Year"].unique()
+                    ],
+                    clearable=False,
+                ),
+            ]
+        ),
+        dbc.FormGroup(
+            [
+                dbc.Label("Critic Score Year"),
+                dcc.Dropdown(
+                    id="xgenre-widget",
+                    value="2010",  # REQUIRED to show the plot on the first page load
+                    options=[
+                        {"label": col, "value": col}
+                        for col in movies["Year"].unique()
+                    ],
+                    clearable=False,
                 ),
             ]
         ),
