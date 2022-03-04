@@ -147,7 +147,7 @@ controls = dbc.Card(
         ),
         dbc.FormGroup(
             [
-                dbc.Label("Market Share Year"),
+                dbc.Label("Sales Trends"),
                 dcc.Dropdown(
                     id="xgenre-widget",
                     value="Horror",  # REQUIRED to show the plot on the first page load
@@ -160,51 +160,7 @@ controls = dbc.Card(
                 ),
             ]
         ),
-        dbc.FormGroup(
-            [
-                dbc.Label("Top Genres Year"),
-                dcc.Dropdown(
-                    id="xgenre-widget",
-                    value="Horror",  # REQUIRED to show the plot on the first page load
-                    multi=True,
-                    options=[1
-                        {"label": col, "value": col}
-                        for col in movies["genres"].unique()
-                    ],
-                    clearable=False,
-                ),
-            ]
-        ),
-        dbc.FormGroup(
-            [
-                dbc.Label("Top Publisher Year"),
-                dcc.Dropdown(
-                    id="xgenre-widget",
-                    value="Horror",  # REQUIRED to show the plot on the first page load
-                    multi=True,
-                    options=[1
-                        {"label": col, "value": col}
-                        for col in movies["genres"].unique()
-                    ],
-                    clearable=False,
-                ),
-            ]
-        ),
-        dbc.FormGroup(
-            [
-                dbc.Label("Critic Score Year"),
-                dcc.Dropdown(
-                    id="xgenre-widget",
-                    value="Horror",  # REQUIRED to show the plot on the first page load
-                    multi=True,
-                    options=[1
-                        {"label": col, "value": col}
-                        for col in movies["genres"].unique()
-                    ],
-                    clearable=False,
-                ),
-            ]
-        ),
+        
     ],
     body=True,
     className="text-dark",
