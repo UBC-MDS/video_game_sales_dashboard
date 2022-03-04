@@ -1,103 +1,135 @@
-import dash
+from dash import Dash, html, dcc, Input, Output
 import dash_bootstrap_components as dbc
-import dash_html_components as html
-import dash_core_components as dcc
-import plotly.express as px
-from dash.dependencies import Input, Output
+import altair as alt
 import pandas as pd
 
-# data source: https://www.kaggle.com/chubak/iranian-students-from-1968-to-2017
-# data owner: Chubak Bidpaa
-df = pd.read_csv('https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Side-Bar/iranian_students.csv')
+# disable Altair limits
+qwl_df = pd.read_csv("./data/bei_vita_qwl_assessment.csv")
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-
-
-# styling the sidebar
-SIDEBAR_STYLE = {
-    "position": "fixed",
-    "top": 0,
-    "left": 0,
-    "bottom": 0,
-    "width": "16rem",
-    "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
-}
-
-# padding for the page content
-CONTENT_STYLE = {
-    "margin-left": "18rem",
-    "margin-right": "2rem",
-    "padding": "2rem 1rem",
-}
-
-sidebar = html.Div(
-    [
-        html.H2("Sidebar", className="display-4"),
-        html.Hr(),
-        html.P(
-            "Number of students per education level", className="lead"
-        ),
-        dbc.Nav(
-            [
-                dbc.NavLink("Home", href="/", active="exact"),
-                dbc.NavLink("Page 1", href="/page-1", active="exact"),
-                dbc.NavLink("Page 2", href="/page-2", active="exact"),
-            ],
-            vertical=True,
-            pills=True,
-        ),
-    ],
-    style=SIDEBAR_STYLE,
+app = Dash(
+    __name__,
+    external_stylesheets=[dbc.themes.BOOTSTRAP, "https://codepen.io/chriddyp/pen/bWLwgP.css"]
 )
+server = app.server
 
-content = html.Div(id="page-content", children=[], style=CONTENT_STYLE)
+app.layout = dbc.Container(
+    [
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        html.Br(),
+                        html.H2("Bei Vita"),
+                        html.P(
+                            dcc.Markdown(
+                                """
+                                Visualization to represent how scores for quality of
+                                work life are distributed
+                                """
+                            )
+                        )
+                    ],
+                    width=3
+                ),
+                dbc.Col(
+                    [
+                        html.H1("Quality of Work Life"),
+                        html.H2("Client Name")
+                    ],
+                    width=6
+                ),
+                dbc.Col(
+                    [
+                    ],
+                    width=3
+                )
+            ],
+            align="center"
+        ),
+        html.Br(),
 
-app.layout = html.Div([
-    dcc.Location(id="url"),
-    sidebar,
-    content
-])
+        dbc.Row(
+            [
+                
+                dbc.Col(
+                    [
+                        html.Div(
+                            [
+                                html.Iframe(
+                                    id="lineplot",
+                                    style={"border-width": "0", "width": "100%", "height": "450px"}
+                                ),
+                                dcc.Dropdown(
+                                    id='xcol-lineplot-widget',
+                                    value='Total score',
+                                    options=[{'label': col, 'value': col} for col in ["Total score"]]
+                                )
+                            ]
+                        )
+                    ],
+                    width=9
+                ),
+                dbc.Col(
+                    [
+                   
+                    ],
+                    width=3
+                ),
+            ],
+        ),
+        html.Br(),
 
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        
+                    ],
+                ),
+                dbc.Col(
+                    [
+                        html.Div(
+                            [
+                                html.Iframe(
+                                    id="vertical_barplot",
+                                    # value="Total score",
+                                    style={"border-width": "0", "width": "100%", "height": "450px"}
+                                ),
+                                dcc.Dropdown(
+                                    id='xcol-vbarplot-widget',
+                                    value='Total score',
+                                    options=[{'label': col, 'value': col} for col in ["Total score"]]
+                                )
+                            ]
+                        )
+                    ]
+                ),
+            ],
+        )
+    ]
+)
 
 @app.callback(
-    Output("page-content", "children"),
-    [Input("url", "pathname")]
+    Output("lineplot", "srcDoc"),
+    Output("vertical_barplot", "srcDoc"),
+    Input('xcol-lineplot-widget', 'value'),
+    Input('xcol-vbarplot-widget', 'value')
 )
-def render_page_content(pathname):
-    if pathname == "/":
-        return [
-                html.H1('Kindergarten in Iran',
-                        style={'textAlign':'center'}),
-                dcc.Graph(id='bargraph',
-                         figure=px.bar(df, barmode='group', x='Years',
-                         y=['Girls Kindergarten', 'Boys Kindergarten']))
-                ]
-    elif pathname == "/page-1":
-        return [
-                html.H1('Grad School in Iran',
-                        style={'textAlign':'center'}),
-                dcc.Graph(id='bargraph',
-                         figure=px.bar(df, barmode='group', x='Years',
-                         y=['Girls Grade School', 'Boys Grade School']))
-                ]
-    elif pathname == "/page-2":
-        return [
-                html.H1('High School in Iran',
-                        style={'textAlign':'center'}),
-                dcc.Graph(id='bargraph',
-                         figure=px.bar(df, barmode='group', x='Years',
-                         y=['Girls High School', 'Boys High School']))
-                ]
-    # If the user tries to reach a different page, return a 404 message
-    return dbc.Jumbotron(
-        [
-            html.H1("404: Not found", className="text-danger"),
-            html.Hr(),
-            html.P(f"The pathname {pathname} was not recognised..."),
-        ]
+def vertical_barplot(xcol_lineplot, xcol_vbarplot):
+    lineplot = alt.Chart(qwl_df).mark_line().encode(
+        x=xcol_lineplot,
+        y="count()",
+    ).properties(width=600).interactive()
+
+    vertical_barplot = alt.Chart(qwl_df).mark_bar().encode(
+        x=alt.X(
+            xcol_vbarplot,
+            bin=alt.Bin(maxbins=5)
+        ),
+        y="count()",
     )
 
+    return lineplot.to_html(), vertical_barplot.to_html(), 
 
-if __name__=='__main__':
-    app.run_server(debug=True, port=3000)
+if __name__ == "__main__":
+    app.run_server(debug=False)
