@@ -16,44 +16,42 @@ server=app.server
 
 app.layout = dbc.Container([
     dbc.Tabs([
+  
         dbc.Tab([
             html.H1('Video Game Dashboard'),
             dbc.Row([
-        dbc.Col([
-            dcc.Dropdown(
-                id='global-year',
-                value=2016,  # REQUIRED to show the plot on the first page load
-                options=[{'label': col, 'value': col} for col in summary["Year"].unique()])]),
-        dbc.Col(
-            html.Iframe(
-                id='global-market-share',
-                style={'border-width': '0', 'width': '100%', 'height': '400px'})),
-        dbc.Col(
-            html.Iframe(
-                id = 'global-critic-score',
-                style={'border-width': '0', 'width': '100%', 'height': '400px'}
-            )
-        )])], label='Global'),
+                dbc.Col([dcc.Dropdown(
+                    id='global-year',
+                    value=2016,  # REQUIRED to show the plot on the first page load
+                    options=[{'label': col, 'value': col} for col in summary["Year"].unique()])])]),
+            dbc.Col([
+                dbc.Row(
+                    html.Iframe(
+                        id='global-market-share',
+                        style={'border-width': '0', 'width': '100%', 'height': '400px'})),
+                dbc.Row(
+                    html.Iframe(
+                        id = 'global-critic-score',
+                        style={'border-width': '0', 'width': '100%', 'height': '400px'}
+                        ))])], label='Global'),
+        
         dbc.Tab([
             html.H1('Video Game Dashboard'),
             dbc.Row([
-        dbc.Col([
-            dcc.Dropdown(
-                id='na-year',
-                value=2016,  # REQUIRED to show the plot on the first page load
-                options=[{'label': col, 'value': col} for col in summary["Year"].unique()])]),
-        dbc.Col(
-            html.Iframe(
-                id='na-market-share',
-                style={'border-width': '0', 'width': '100%', 'height': '400px'})),
-        dbc.Col(
-            html.Iframe(
-                id = 'na-critic-score',
-                style={'border-width': '0', 'width': '100%', 'height': '400px'}
-            )
-        )
-
-        ])],label='North America')
+                dbc.Col([dcc.Dropdown(
+                    id='na-year',
+                    value=2016,  # REQUIRED to show the plot on the first page load
+                    options=[{'label': col, 'value': col} for col in summary["Year"].unique()])])]),
+            dbc.Col([
+                dbc.Row(
+                    html.Iframe(
+                        id='na-market-share',
+                        style={'border-width': '0', 'width': '100%', 'height': '400px'})),
+                dbc.Row(
+                    html.Iframe(
+                        id = 'na-critic-score',
+                        style={'border-width': '0', 'width': '100%', 'height': '400px'}
+                        ))])], label='North America')
         ])])
 
 # Set up callbacks/backend
@@ -71,7 +69,7 @@ def global_market_share_plot(year):
         global_sales_year["North America"] / global_sales_year["North America"].sum()
     )
     plot = (
-        alt.Chart(global_sales_year)
+        alt.Chart(global_sales_year, title="Market Shares of Companies")
         .mark_arc(innerRadius=70)
         .encode(
             theta=alt.Theta(field="North America", type="quantitative"),
@@ -89,7 +87,7 @@ def na_market_share_plot(year):
     na_sales_year = na_sales[na_sales.iloc[:, 1] == year].replace("Video Games", "Others")
     na_sales_year["percent"] = na_sales_year["Global"] / na_sales["Global"].sum()
     plot = (
-        alt.Chart(na_sales_year)
+        alt.Chart(na_sales_year, title="Market Shares of Companies")
         .mark_arc(innerRadius=70)
         .encode(
             theta=alt.Theta(field="Global", type="quantitative"),
@@ -111,7 +109,7 @@ def global_critic_score_plot(year):
         columns={"Critic_Score": "Critic Score"}
     )
     plot = (
-        alt.Chart(score_year)
+        alt.Chart(score_year, title="Critic Scores")
         .transform_window(
             rank="rank(Critic Score)",
             sort=[alt.SortField("Critic Score", order="descending")],
@@ -137,7 +135,7 @@ def na_critic_score_plot(year):
         columns={"Critic_Score": "Critic Score"}
     )
     plot = (
-        alt.Chart(score_year)
+        alt.Chart(score_year, title="Critic Scores")
         .transform_window(
             rank="rank(Critic Score)",
             sort=[alt.SortField("Critic Score", order="descending")],
