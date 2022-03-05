@@ -1,7 +1,7 @@
 Video Game Sales Analytics Dashboard
 ================
 Amelia Tang, Alex Yinan Guo, Yike Shi, and Mahmoodur Rahman
-Dashboard link: https://video-game-dashboard.herokuapp.com/ 
+<br>Dashboard link: https://video-game-dashboard.herokuapp.com/ 
 
 ## Background
 
