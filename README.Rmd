@@ -14,32 +14,72 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Background
 
-Electronic video games in 2020 generated a revenue of around $165 billion. To thrive in this competitive industry, video game companies have sales analysts who need to keep their eyes on stats relating to sales. 
-Our dashboard can easily present the necessary stats relating to video games sales, by a user-friendly interface.
+Our dashboard visualizes North American and global sales and sales-related data, such as top publishers and top genres based on sales and market share based on sales by year. More in details in our [proposal](https://github.com/UBC-MDS/video_game_sales_dashboard/blob/main/doc/proposal.md).
 
-## Data 
 
-The data used in this dashboard is drawn from [Kaggle](https://www.kaggle.com/sidtwr/videogames-sales-dataset?select=Video_Games_Sales_as_at_22_Dec_2016.csv), which has 11563 observations. 
+## Table of Content
+* [What are we doing?](#what-are-we-doing)
+* [Dashboard description](#dashboard-description)
+* [Future development](#future-development)
+* [License](#license)
 
-## Methodlogy
+## What are we doing? 
 
-The dashboard performs exploratory data analysis by filtering several traits such as `Platform`, `Year_of_Release`, `Genre`, `Publisher`, `Developer` etc.
-More in details in our [proposal](docs/proposal.md).
+Electronic video games in 2020 generated a revenue of around $165 billion. To thrive in this competitive industry, video game companies have sales analysts who need to keep their eyes on stats relating to sales. We built this simple dashboard to provide visual aids for the sales analysts and to save their time on data wrangling for regional and yearly data. 
 
-## Design
 
-#### Description
+## Dashboard Description
+![demo](./src/fig/demo.gif)
+  Figure 1. Overview of the dashboard
+</p>
 
-The app contains a landing page that by default shows the North America sales line plot for PlayStation4, top publishers in the most recent years for PlayStation4, top genres for the most recent years for PlayStation4, a chart shows market share of the major players in the industry in the most recent year and an average critic score of PlayStation4 in the most recent year. On the top of the page, a user can use the tabs to navigate between the North America and global sales to show sales trends in North America, other regions (under the `global` tab), and the sales trend globally (under the `global` tab). Moreover, a user can use the year slider under the sales line plot to choose the range of years of sales he/she would like to view. From the filter on the side bar, a user can choose to show sales of different companies, including but not limited to PS4, Xbox and Wii. In addition, a user can also use the drop down menus on the side bar to choose the year of top publishers, top genres, market share and average critic score he/she would like to view. At the bottom of the `Top Genre` and `Top Publisher` charts, a user can choose how many top genres or publishers he/she want to see from 5 to 10.         
+The dashboard contains a landing page that by default shows the North America sales line plot for PlayStation4, top publishers in the most recent years available in the data set, top genres for the most recent available year, a chart shows market share of the major players in the industry in the most recent available year and an average critic score of games on different platform in the most recent available year in the data set. On the top of the page, a user can use the tabs to navigate between the North America and global sales to show sales trends in North America and the sales trend globally (under the `Global` tab). Moreover, a user can use the year slider under the sales line plot to choose the range of years of sales he/she would like to view from 2013. From the filter on the side bar, a user can choose to show sales of different companies, PS4 and/or Xbox. In addition, a user can also use the drop down menus on the side bar to choose the year of top publishers, top genres, market share and average critic score he/she would like to view. At the bottom of the `Top Genre` and `Top Publisher` charts, a user can choose how many top genres or publishers he/she want to see from 5 to 9.
 
-#### Sketch
+## Future development
 
-```{r design, echo=FALSE, out.width="100%"}
-knitr::include_graphics("src/fig/Video_Games_Dashboard_Sketch.jpg")
+We are calling for developers to help us improve the existing features and implement new ones. For those who are interested in develop the `video game sales analytics` dashboard, you can follow the steps to run the app locally. 
+
+#### Installation 
+Clone the repository using `git clone`
+Install virtual environment using [venv](https://docs.python.org/3/library/venv.html):
+```
+# Create an venv virual environment 
+python -m venv videogame 
+
+# Activate the environment 
+source videogame/bin/activate 
+
+# Install the requirements 
+pip install -r requirements.txt
 ```
 
-## Contributing to this Dashboard
+or if you would like to create the environment locally, at the project root: 
+```
+conda env create -f videogame.yaml
+conda activate videogame
+```
+
+#### Run the app locally
+
+Run the following line from the terminal
+
+```
+python src/app.py
+```
+By default, dash will be running at `http://127.0.0.1:8050/`, then access it through the web browser. 
+
+#### Contribution Guidelines 
+
 If you have some ideas regarding this project and wish to help, please review our [contributing guidelines](CONTRIBUTING.md).
 
+
+#### Suggestions
+
+All suggestions for improvements are welcomed! We would particularly appreciate developments in the following areas: 
+<br>- Real-time tracking of the sales data using the companies' quarterly or annual financial statements published online 
+<br>- North America regional sales analysis such as heap maps to indicate the amount of sales in different U.S. States and Canadian provinces 
+<br>- A plot associate Critic scores with sales to examine the relationship between the two
+
 ## License
+
 `Video Game Sales Analytics Dashboard` dashboard is licensed under the terms of the MIT license.
