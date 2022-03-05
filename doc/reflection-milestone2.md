@@ -5,7 +5,7 @@ Group 20: Amelia Tang, Alex Yinan Guo, Maeve Yike Shi, Mahmood Rahman
 
 ### Data Wrangling 
 
-We used the Kaggle dataset [Video Games Sales Dataset](https://www.kaggle.com/sidtwr/videogames-sales-dataset?select=Video_Games_Sales_as_at_22_Dec_2016.csv) and conducted data wrangling. The processed data sets contains all the data we need to create the graphs in our proposal. 
+We used the Kaggle dataset [Video Games Sales Dataset](https://www.kaggle.com/sidtwr/videogames-sales-dataset?select=Video_Games_Sales_as_at_22_Dec_2016.csv) and conducted data wrangling. The processed data sets contain all the data we need to create the graphs in our proposal. 
 
 ### Dashboard creation
 
