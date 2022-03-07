@@ -1,0 +1,10 @@
+# docker-compose.yml
+version: '1'
+services:
+  # main application
+  myapp:
+    container_name: video-game-dashboard
+    build:
+      .
+    ports:
+      - "8000:8000"
