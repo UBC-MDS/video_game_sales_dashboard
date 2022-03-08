@@ -76,14 +76,16 @@ root:
     conda env create -f videogame.yaml
     conda activate videogame
 
-#### Run the app locally
+### Run the app locally
 
-Run the following line from the terminal
+To run this app using Docker write the following commands after cloning the repo:
 
-    python src/app.py
+```bash
+cd video_game_sales_dashboard
+docker-compose up
+```
+Finally, open the app in the followin URL http://localhost:8000/
 
-By default, dash will be running at `http://127.0.0.1:8050/`, then
-access it through the web browser.
 
 #### Contribution Guidelines
 
