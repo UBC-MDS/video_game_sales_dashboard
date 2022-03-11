@@ -198,7 +198,7 @@ def na_critic_score_plot(year):
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 server=app.server
-
+app.title = "Video Game Sales Analytics"
 
 # ==============================================================================
 #                            Styles
