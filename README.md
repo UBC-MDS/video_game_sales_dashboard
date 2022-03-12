@@ -78,6 +78,12 @@ root:
 
 ### Run the app locally
 
+Via the command line: 
+```
+python src/app.py
+```
+or via Docker Compose: 
+
 To run this app using Docker write the following commands after cloning the repo:
 
 ```bash
