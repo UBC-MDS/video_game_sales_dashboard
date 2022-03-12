@@ -3,8 +3,8 @@ version: '3'
 services:
   # main application
   myapp:
-    container_name: video-game-dashboard
+    container_name: video_game_sales_dashboard
     build:
       .
     ports:
-      - "8000:8000"
+      - "8050:8050"

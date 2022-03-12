@@ -84,7 +84,7 @@ To run this app using Docker write the following commands after cloning the repo
 cd video_game_sales_dashboard
 docker-compose up
 ```
-Finally, open the app in the followin URL http://localhost:8000/
+Finally, open the app in the following URL http://0.0.0.0:8050
 
 
 #### Contribution Guidelines
