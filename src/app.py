@@ -196,9 +196,17 @@ def na_critic_score_plot(year):
     )
     return plot.to_html()
 
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
-server=app.server
+app = dash.Dash(
+    __name__,
+    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    suppress_callback_exceptions=True
+)
+
 app.title = "Video Game Sales Analytics"
+
+server=app.server
+logo = "https://github.com/UBC-MDS/video_game_sales_dashboard/blob/main/src/assets/favicon.png"
+
 
 # ==============================================================================
 #                            Styles
