@@ -217,7 +217,7 @@ SIDEBAR_STYLE = {
   "top": 0,
   "left": 0,
   "bottom": 0,
-  "width": "16rem",
+  "width": "14rem",
   "padding": "2rem 1rem",
   "background-color": "#ADD8E6",
 }
@@ -228,13 +228,15 @@ CONTENT_STYLE = {
   "margin-left": "18rem",
   "margin-right": "2rem",
   "padding": "2rem 1rem",
+  "width": "1500px",
+  "height": "900px"
 }
 
 
 # ==============================================================================
 #                            App Layout
 # ==============================================================================
-# The codes were side bar was adapted from https://dash-bootstrap-components.opensource.faculty.ai/examples/simple-sidebar/ 
+# The codes for side bar was adapted from https://dash-bootstrap-components.opensource.faculty.ai/examples/simple-sidebar/ 
 
 sidebar = html.Div(
   [
@@ -307,9 +309,56 @@ content = html.Div([
     dcc.Tab(label='North America', children=[
       dbc.Row([
         dbc.Col([
-            dcc.Graph(id='NA_sales_chart'),
+            dcc.Loading(
+              type="cube",
+              fullscreen = True,
+              children=[
+                dcc.Graph(id='NA_sales_chart', style={'width': '600px', 'height': '400px'}),
+                dcc.Slider(
+                  id="tab1-year-slider",
+                  min=2013,
+                  max=2018,
+                  step=1,
+                  value=2017,
+                  marks={i: str(i) for i in range(2013, 2019, 1)},
+                  tooltip={"placement": "top", "always_visible": True},
+                  updatemode="drag")])]),
+         html.Br(),
+         html.Br(),
+         html.Br(),
+         dbc.Col([html.Iframe(id='na-market-share',
+         style={'border-width': '2px', 'width': '100%', 'height': '400px'})])]),
+         html.Br(),
+         html.Hr(),
+         html.Br(),
+     dbc.Row([
+        dbc.Col([
+          dbc.Row([html.Iframe(
+                id='na_genre',
+                style={'border-width': '0', 'width': '900px', 'height': '200px'}),
+                html.H5("Number of Top Genres to Display", style={'color': 'black', 'fontSize': 15, 'text-align':'left'} ),
+                dcc.Dropdown(
+                id='na_genre_rownum',
+                value=5,
+                options=[{'label': col, 'value': col} for col in [3, 4, 5, 6, 7, 8, 9]])]),
+          html.Br(),
+          html.Hr(),
+          dbc.Row([html.Iframe(
+                id='na_publisher',
+                style={'border-width': '0', 'width': '900px', 'height': '200px'}),
+                html.H5("Number of Top Publishers to Display", style={'color': 'black', 'fontSize': 15, 'text-align':'left'}),
+                dcc.Dropdown(
+                id='na_publisher_rownum',
+                value=5,
+                options=[{'label': col, 'value': col} for col in [3, 4, 5, 6, 7, 8, 9]])])]),
+        dbc.Col([html.Iframe(id = 'na-critic-score',
+        style={'border-width': '0', 'width': '100%', 'height': '800px'})])])]),
+      dcc.Tab(label='Global', children=[
+        dbc.Row([
+          dbc.Col([
+            dcc.Graph(id='global_sales_chart', style={'width': '600px', 'height': '400px'}),
             dcc.Slider(
-              id="tab1-year-slider",
+              id="tab2-year-slider",
               min=2013,
               max=2018,
               step=1,
@@ -317,66 +366,37 @@ content = html.Div([
               marks={i: str(i) for i in range(2013, 2019, 1)},
               tooltip={"placement": "top", "always_visible": True},
               updatemode="drag")]),
-         dbc.Col([html.Iframe(id='na-market-share',
-         style={'border-width': '0', 'width': '100%', 'height': '400px'})])]),
+         html.Br(),
+         html.Br(),
+         html.Br(),
+         dbc.Col([html.Iframe(id='global-market-share',
+         style={'border-width': '2px', 'width': '100%', 'height': '400px'})])]),
+         html.Br(),
+         html.Hr(),
+         html.Br(),
      dbc.Row([
-        dbc.Col([html.Iframe(
-                id='na_genre',
-                style={'border-width': '0', 'width': '100%', 'height': '200px'}),
-                html.P("Number of Top Genres to Display", style={'color': 'black', 'fontSize': 15, 'text-align':'left'} ),
-                dcc.Dropdown(
-                id='na_genre_rownum',
-                value=5,
-                options=[{'label': col, 'value': col} for col in [3, 4, 5, 6, 7, 8, 9]])]),
-        dbc.Col([html.Iframe(
-                id='na_publisher',
-                style={'border-width': '0', 'width': '100%', 'height': '200px'}),
-                html.P("Number of Top Publishers to Display", style={'color': 'black', 'fontSize': 15, 'text-align':'left'} ),
-                dcc.Dropdown(
-                id='na_publisher_rownum',
-                value=5,
-                options=[{'label': col, 'value': col} for col in [3, 4, 5, 6, 7, 8, 9]])]),
-        dbc.Col([html.Iframe(id = 'na-critic-score',
-        style={'border-width': '0', 'width': '100%', 'height': '400px'})]),
-      ])]),
-    dcc.Tab(label='Global', children=[
-      dbc.Row([
         dbc.Col([
-          dcc.Graph(id='global_sales_chart'),
-          dcc.Slider(
-            id="tab2-year-slider",
-            min=2013,
-            max=2018,
-            step=1,
-            value=2017,
-            marks={i: str(i) for i in range(2013, 2019, 1)},
-            tooltip={"placement": "top", "always_visible": True},
-            updatemode="drag")]),
-        dbc.Col([html.Iframe(
-                        id='global-market-share',
-                        style={'border-width': '0', 'width': '100%', 'height': '400px'})])
-         ]),
-      dbc.Row([
-          dbc.Col([html.Iframe(
+          dbc.Row([html.Iframe(
                 id='global_genre',
-                style={'border-width': '0', 'width': '100%', 'height': '200px'}),
-                html.P("Number of Top Genres to Display", style={'color': 'black', 'fontSize': 15, 'text-align':'left'} ),
+                style={'border-width': '0', 'width': '900px', 'height': '200px'}),
+                html.H5("Number of Top Genres to Display", style={'color': 'black', 'fontSize': 15, 'text-align':'left'} ),
                 dcc.Dropdown(
                 id='global_genre_rownum',
                 value=5,
                 options=[{'label': col, 'value': col} for col in [3, 4, 5, 6, 7, 8, 9]])]),
-          dbc.Col([html.Iframe(
+          html.Br(),
+          html.Hr(),
+          dbc.Row([html.Iframe(
                 id='global_publisher',
-                style={'border-width': '0', 'width': '100%', 'height': '200px'}),
-                html.P("Number of Top Publishers to Display", style={'color': 'black', 'fontSize': 15, 'text-align':'left'} ),
+                style={'border-width': '0', 'width': '900px', 'height': '200px'}),
+                html.H5("Number of Top Publishers to Display", style={'color': 'black', 'fontSize': 15, 'text-align':'left'}),
                 dcc.Dropdown(
                 id='global_publisher_rownum',
                 value=5,
-                options=[{'label': col, 'value': col} for col in [3, 4, 5, 6, 7, 8, 9]])
-                ]),
-          dbc.Col([html.Iframe(id = 'global-critic-score',
-          style={'border-width': '0', 'width': '100%', 'height': '400px'})])])])])],
-          id="page_content",style=CONTENT_STYLE)
+                options=[{'label': col, 'value': col} for col in [3, 4, 5, 6, 7, 8, 9]])])]),
+        dbc.Col([html.Iframe(id = 'global-critic-score',
+        style={'border-width': '0', 'width': '100%', 'height': '800px'})])])])])],
+        id="page_content", style=CONTENT_STYLE)
 
 app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 
@@ -391,7 +411,6 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
     Input('tab1-year-slider', 'value'))
 def chart_output(company, years):
     return NA_sales_chart(company, years)
-  
   
 @app.callback(
     Output('global_sales_chart', 'figure'),
