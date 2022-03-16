@@ -191,7 +191,7 @@ def global_user_score_plot(year):
         .encode(
             x=alt.X("Platform", sort="-y"),
             y='User Score',
-            tooltip=["Critic Score"]
+            tooltip=["User Score"]
         )
         .interactive()
     )
@@ -336,6 +336,14 @@ sidebar = html.Div(
         value=2013,  # REQUIRED to show the plot on the first page load
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
+    html.P(
+      "User Score Year", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
+    ),
+    dcc.Dropdown(
+        id='user_year',
+        value=2013,  # REQUIRED to show the plot on the first page load
+        options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
+    html.Hr(),
     html.P(f"""
         This dashboard was made by Amelia Tang, 
         Alex Yinan Guo, Yike Shi, and Mahmoodur Rahman.  
@@ -399,8 +407,15 @@ content = html.Div([
                 id='na_publisher_rownum',
                 value=5,
                 options=[{'label': col, 'value': col} for col in [3, 4, 5, 6, 7, 8, 9]])])]),
-        dbc.Col([html.Iframe(id = 'na-critic-score',
-        style={'border-width': '0', 'width': '100%', 'height': '800px'})])])]),
+        dbc.Col([dbc.Row([
+          dbc.Col([html.Iframe(
+                id='na-critic-score',
+                style={'border-width': '0', 'width': '100%', 'height': '800px'})]),
+          dbc.Col([html.Iframe(
+                id='na-user-score',
+                style={'border-width': '0', 'width': '100%', 'height': '800px'})])])]), 
+            ])]),
+
       dcc.Tab(label='Global', children=[
         dbc.Row([
           dbc.Col([
@@ -442,8 +457,14 @@ content = html.Div([
                 id='global_publisher_rownum',
                 value=5,
                 options=[{'label': col, 'value': col} for col in [3, 4, 5, 6, 7, 8, 9]])])]),
-        dbc.Col([html.Iframe(id = 'global-critic-score',
-        style={'border-width': '0', 'width': '100%', 'height': '800px'})])])])])],
+        dbc.Col([dbc.Row([
+            dbc.Col([html.Iframe(
+                id='global-critic-score',
+                style={'border-width': '0', 'width': '100%', 'height': '800px'})]),
+            dbc.Col([html.Iframe(
+                id='global-user-score',
+                style={'border-width': '0', 'width': '100%', 'height': '800px'})])])]),
+        ])])])],
         id="page_content", style=CONTENT_STYLE)
 
 app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
@@ -522,6 +543,17 @@ def global_critic_score(year):
 def na_critic_score(year):
     return na_critic_score_plot(year)
 
+@app.callback(
+    Output('global-user-score', 'srcDoc'),
+    Input('user_year', 'value'))
+def global_user_score(year):
+    return global_user_score_plot(year)
+
+@app.callback(
+    Output('na-user-score', 'srcDoc'),
+    Input('user_year', 'value'))
+def na_user_score(year):
+    return na_user_score_plot(year)
 
 if __name__ == "__main__":
   app.run_server(debug=True)
