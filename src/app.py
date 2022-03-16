@@ -30,7 +30,7 @@ def NA_sales_chart(company, years):
     sales_NA = ps4_NA.join(xbox_NA.set_index('Year'), on = "Year").reset_index()
     sales_NA_year = sales_NA.set_index(["Year"])
     sales_NA_new = sales_NA_year.loc[2013:years].reset_index()
-    fig = px.line(sales_NA_new, x="Year", y=company, title='Sales Trend')
+    fig = px.line(sales_NA_new, x="Year", y=company, title='North America Sales Trend')
     return fig
   
 def global_sales_chart(company, years):
@@ -40,13 +40,13 @@ def global_sales_chart(company, years):
     sales_global_year = sales_global.set_index(["Year"])
     sales_global_new = sales_global_year.loc[2013:years].reset_index()
     fig = px.line(sales_global_new, 
-        x="Year", y=company, title='Sales Trend')
+        x="Year", y=company, title='Global Sales Trend')
     return fig
 
 def global_genre_chart(year, rownum):
     genre = summary.groupby(['Genre', 'Year']).size().to_frame(name = 'counts').reset_index()
     genre_year = genre[genre['Year'] == year]
-    chart = alt.Chart(genre_year, title='Top Global Genres').transform_window(
+    chart = alt.Chart(genre_year, title='Global Top Genres').transform_window(
             rank='rank(counts)',
             sort=[alt.SortField('counts', order='descending')]
         ).transform_filter(
@@ -61,7 +61,7 @@ def global_genre_chart(year, rownum):
 def global_publisher_chart(year, rownum):
     publisher = summary.groupby(['Publisher', 'Year']).size().to_frame(name = 'counts').reset_index()
     publisher_year = publisher[publisher['Year'] == year]
-    chart = alt.Chart(publisher_year, title='Top Global Publishers').transform_window(
+    chart = alt.Chart(publisher_year, title='Global Top Publishers').transform_window(
             rank='rank(counts)',
             sort=[alt.SortField('counts', order='descending')]
         ).transform_filter(
@@ -75,7 +75,7 @@ def global_publisher_chart(year, rownum):
 def na_genre_chart(year, rownum):
     genre = summary[summary['North America'] !=0].groupby(['Genre', 'Year']).size().to_frame(name = 'counts').reset_index()
     genre_year = genre[genre['Year'] == year]
-    chart = alt.Chart(genre_year, title='Top North America Genres').transform_window(
+    chart = alt.Chart(genre_year, title='North America Top Genres').transform_window(
             rank='rank(counts)',
             sort=[alt.SortField('counts', order='descending')]
         ).transform_filter(
@@ -89,7 +89,7 @@ def na_genre_chart(year, rownum):
 def na_publisher_chart(year, rownum):
     publisher = summary[summary['North America'] !=0].groupby(['Publisher', 'Year']).size().to_frame(name = 'counts').reset_index()
     publisher_year = publisher[publisher['Year'] == year]
-    chart = alt.Chart(publisher_year, title='Top North America Publishers').transform_window(
+    chart = alt.Chart(publisher_year, title='North America Top Publishers').transform_window(
             rank='rank(counts)',
             sort=[alt.SortField('counts', order='descending')]
         ).transform_filter(
@@ -112,7 +112,7 @@ def global_market_share_plot(year):
         + "%"
     )
     plot = (
-        alt.Chart(global_sales_year, title="Market Shares of Companies")
+        alt.Chart(global_sales_year, title="Global Market Shares of Companies")
         .mark_arc(innerRadius=70)
         .encode(
             theta=alt.Theta(field="Global", type="quantitative"),
@@ -136,7 +136,7 @@ def na_market_share_plot(year):
         + "%"
     )
     plot = (
-        alt.Chart(global_sales_year, title="Market Shares of Companies")
+        alt.Chart(global_sales_year, title="North America Market Shares of Companies")
         .mark_arc(innerRadius=70)
         .encode(
             theta=alt.Theta(field="North America", type="quantitative"),
@@ -158,7 +158,7 @@ def global_critic_score_plot(year):
         columns={"Critic_Score": "Critic Score"}
     )
     plot = (
-        alt.Chart(score_year, title="Critic Scores")
+        alt.Chart(score_year, title="Global Critic Scores")
         .transform_window(
             rank="rank(Critic Score)",
             sort=[alt.SortField("Critic Score", order="descending")],
@@ -173,6 +173,31 @@ def global_critic_score_plot(year):
     )
     return plot.to_html()
 
+
+def global_user_score_plot(year):
+    score = (videoGame.groupby(["Platform", "Year"]).mean())[
+        ["User_Score"]
+    ].reset_index()
+    score_year = score[score.iloc[:, 1] == year].rename(
+        columns={"User_Score": "User Score"}
+    )
+    plot = (
+        alt.Chart(score_year, title="Global User Scores")
+        .transform_window(
+            rank="rank(User Score)",
+            sort=[alt.SortField("User Score", order="descending")],
+        )
+        .mark_bar()
+        .encode(
+            x=alt.X("Platform", sort="-y"),
+            y='User Score',
+            tooltip=["Critic Score"]
+        )
+        .interactive()
+    )
+    return plot.to_html()
+
+
 def na_critic_score_plot(year):
     score = (videoGame.groupby(["Platform", "Year"]).mean())[
         ["Critic_Score"]
@@ -181,7 +206,7 @@ def na_critic_score_plot(year):
         columns={"Critic_Score": "Critic Score"}
     )
     plot = (
-        alt.Chart(score_year, title="Critic Scores")
+        alt.Chart(score_year, title="North America Critic Scores")
         .transform_window(
             rank="rank(Critic Score)",
             sort=[alt.SortField("Critic Score", order="descending")],
@@ -191,6 +216,29 @@ def na_critic_score_plot(year):
             x=alt.X("Platform", sort="-y"),
             y='Critic Score',
             tooltip=["Critic Score"]
+        )
+        .interactive()
+    )
+    return plot.to_html()
+
+def na_user_score_plot(year):
+    score = (videoGame.groupby(["Platform", "Year"]).mean())[
+        ["User_Score"]
+    ].reset_index()
+    score_year = score[score.iloc[:, 1] == year].rename(
+        columns={"User_Score": "User Score"}
+    )
+    plot = (
+        alt.Chart(score_year, title="North America User Scores")
+        .transform_window(
+            rank="rank(User Score)",
+            sort=[alt.SortField("User Score", order="descending")],
+        )
+        .mark_bar()
+        .encode(
+            x=alt.X("Platform", sort="-y"),
+            y='User Score',
+            tooltip=["User Score"]
         )
         .interactive()
     )
