@@ -174,7 +174,8 @@ def global_critic_score_plot(year):
             x=alt.X("Platform", sort="-y"),
             y='Critic score',
             tooltip=["Critic score"]
-        ).configure_title(fontSize=20)
+        ).properties(width=200,
+        height=480).configure_title(fontSize=20)
         .interactive()
     )
     return plot.to_html()
@@ -198,7 +199,8 @@ def global_user_score_plot(year):
             x=alt.X("Platform", sort="-y"),
             y='User score',
             tooltip=["User score"]
-        ).configure_title(fontSize=20)
+        ).properties(width=200,
+        height=480).configure_title(fontSize=20)
         .interactive()
     )
     return plot.to_html()
@@ -222,7 +224,8 @@ def na_critic_score_plot(year):
             x=alt.X("Platform", sort="-y"),
             y='Critic score',
             tooltip=["Critic score"]
-        ).configure_title(fontSize=20)
+        ).properties(width=200,
+        height=480).configure_title(fontSize=20)
         .interactive()
     )
     return plot.to_html()
@@ -245,7 +248,8 @@ def na_user_score_plot(year):
             x=alt.X("Platform", sort="-y"),
             y='User score',
             tooltip=["User score"]
-        ).configure_title(fontSize=20)
+        ).properties(width=200,
+        height=480).configure_title(fontSize=20)
         .interactive()
     )
     return plot.to_html()
@@ -284,7 +288,7 @@ CONTENT_STYLE = {
   "margin-right": "2rem",
   "padding": "2rem 1rem",
   "width": "1500px",
-  "height": "900px"
+  "height": "1000px"
 }
 
 
@@ -328,7 +332,7 @@ sidebar = html.Div(
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
     html.P(
-      "Top Publisher Year", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
+      "Top Publishers Year", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
     ),
     dcc.Dropdown(
         id='publisher_year',
@@ -336,7 +340,7 @@ sidebar = html.Div(
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
     html.P(
-      "Critic Score Year", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
+      "Critic Scores Year", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
     ),
     dcc.Dropdown(
         id='critic_year',
@@ -344,7 +348,7 @@ sidebar = html.Div(
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
     html.P(
-      "User Score Year", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
+      "User Scores Year", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
     ),
     dcc.Dropdown(
         id='user_year',
@@ -417,10 +421,10 @@ content = html.Div([
         dbc.Col([dbc.Row([
           dbc.Col([html.Iframe(
                 id='na-critic-score',
-                style={'border-width': '0', 'width': '100%', 'height': '500px'})]),
+                style={'border-width': '0', 'width': '100%', 'height': '800px'})]),
           dbc.Col([html.Iframe(
                 id='na-user-score',
-                style={'border-width': '0', 'width': '100%', 'height': '500px'})])])]), 
+                style={'border-width': '0', 'width': '100%', 'height': '800px'})])])]), 
             ])]),
 
       dcc.Tab(label='Global', children=[
@@ -467,10 +471,10 @@ content = html.Div([
         dbc.Col([dbc.Row([
             dbc.Col([html.Iframe(
                 id='global-critic-score',
-                style={'border-width': '0', 'width': '100%', 'height': '500px'})]),
+                style={'border-width': '0', 'width': '100%', 'height': '800px'})]),
             dbc.Col([html.Iframe(
                 id='global-user-score',
-                style={'border-width': '0', 'width': '100%', 'height': '500px'})])])]),
+                style={'border-width': '0', 'width': '100%', 'height': '800px'})])])]),
         ])])])],
         id="page_content", style=CONTENT_STYLE)
 
