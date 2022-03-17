@@ -25,79 +25,85 @@ videoGame = pd.read_csv(os.path.join(current_dir, '../data/processed/videoGame.c
 xbox = pd.read_csv(os.path.join(current_dir, '../data/processed/xbox.csv'))
 
 def NA_sales_chart(company, years):
-    ps4_NA = ps4[["Year", "North America"]].groupby(['Year']).sum().head(6).rename(columns={"North America": "ps4"})
-    xbox_NA = xbox[["Year", "North America"]].groupby(['Year']).sum().reset_index().head(6).rename(columns={"North America": "xbox"})
+    ps4_NA = ps4[["Year", "North America"]].groupby(['Year']).sum().head(6).rename(columns={"North America": "PS4"})
+    xbox_NA = xbox[["Year", "North America"]].groupby(['Year']).sum().reset_index().head(6).rename(columns={"North America": "XBox"})
     sales_NA = ps4_NA.join(xbox_NA.set_index('Year'), on = "Year").reset_index()
     sales_NA_year = sales_NA.set_index(["Year"])
     sales_NA_new = sales_NA_year.loc[2013:years].reset_index()
-    fig = px.line(sales_NA_new, x="Year", y=company, title='North America Sales Trend')
+    fig = px.line(sales_NA_new, x="Year", y=company, title='North America Sales Trend', labels=dict(value="Sales in million", variable="Company"))
+    fig.update_layout(title_x=0.5)
+    fig['layout']['title']['font'] = dict(size=20)
+
+
     return fig
   
 def global_sales_chart(company, years):
-    ps4_global = ps4[["Year", "Global"]].groupby(['Year']).sum().head(6).rename(columns={"Global": "ps4"})
-    xbox_global = xbox[["Year", "Global"]].groupby(['Year']).sum().reset_index().head(6).rename(columns={"Global": "xbox"})
+    ps4_global = ps4[["Year", "Global"]].groupby(['Year']).sum().head(6).rename(columns={"Global": "PS4"})
+    xbox_global = xbox[["Year", "Global"]].groupby(['Year']).sum().reset_index().head(6).rename(columns={"Global": "XBox"})
     sales_global = ps4_global.join(xbox_global.set_index('Year'), on = "Year").reset_index()
     sales_global_year = sales_global.set_index(["Year"])
     sales_global_new = sales_global_year.loc[2013:years].reset_index()
     fig = px.line(sales_global_new, 
-        x="Year", y=company, title='Global Sales Trend')
+        x="Year", y=company, title='Global Sales Trend', labels=dict(value="Sales in million", variable="Company"))
+    fig.update_layout(title_x=0.5)
+    fig['layout']['title']['font'] = dict(size=20)
     return fig
 
 def global_genre_chart(year, rownum):
-    genre = summary.groupby(['Genre', 'Year']).size().to_frame(name = 'counts').reset_index()
+    genre = summary.groupby(['Genre', 'Year']).size().to_frame(name = 'Counts').reset_index()
     genre_year = genre[genre['Year'] == year]
     chart = alt.Chart(genre_year, title='Global Top Genres').transform_window(
-            rank='rank(counts)',
-            sort=[alt.SortField('counts', order='descending')]
+            rank='rank(Counts)',
+            sort=[alt.SortField('Counts', order='descending')]
         ).transform_filter(
             alt.datum.rank <= rownum
         ).mark_bar().encode(
-            x='counts',
+            x='Counts',
             y=alt.Y('Genre', sort = '-x')
-        )
+        ).configure_title(fontSize=20)
     return chart.to_html()
 
 
 def global_publisher_chart(year, rownum):
-    publisher = summary.groupby(['Publisher', 'Year']).size().to_frame(name = 'counts').reset_index()
+    publisher = summary.groupby(['Publisher', 'Year']).size().to_frame(name = 'Counts').reset_index()
     publisher_year = publisher[publisher['Year'] == year]
     chart = alt.Chart(publisher_year, title='Global Top Publishers').transform_window(
-            rank='rank(counts)',
-            sort=[alt.SortField('counts', order='descending')]
+            rank='rank(Counts)',
+            sort=[alt.SortField('Counts', order='descending')]
         ).transform_filter(
             alt.datum.rank <= rownum
         ).mark_bar().encode(
-            x='counts',
+            x='Counts',
             y=alt.Y('Publisher', sort = '-x')
-        )
+        ).configure_title(fontSize=20)
     return chart.to_html()
 
 def na_genre_chart(year, rownum):
-    genre = summary[summary['North America'] !=0].groupby(['Genre', 'Year']).size().to_frame(name = 'counts').reset_index()
+    genre = summary[summary['North America'] !=0].groupby(['Genre', 'Year']).size().to_frame(name = 'Counts').reset_index()
     genre_year = genre[genre['Year'] == year]
     chart = alt.Chart(genre_year, title='North America Top Genres').transform_window(
-            rank='rank(counts)',
-            sort=[alt.SortField('counts', order='descending')]
+            rank='rank(Counts)',
+            sort=[alt.SortField('Counts', order='descending')]
         ).transform_filter(
             alt.datum.rank <= rownum
         ).mark_bar().encode(
-            x='counts',
+            x='Counts',
             y=alt.Y('Genre', sort = '-x')
-        )
+        ).configure_title(fontSize=20)
     return chart.to_html()
 
 def na_publisher_chart(year, rownum):
-    publisher = summary[summary['North America'] !=0].groupby(['Publisher', 'Year']).size().to_frame(name = 'counts').reset_index()
+    publisher = summary[summary['North America'] !=0].groupby(['Publisher', 'Year']).size().to_frame(name = 'Counts').reset_index()
     publisher_year = publisher[publisher['Year'] == year]
     chart = alt.Chart(publisher_year, title='North America Top Publishers').transform_window(
-            rank='rank(counts)',
-            sort=[alt.SortField('counts', order='descending')]
+            rank='rank(Counts)',
+            sort=[alt.SortField('Counts', order='descending')]
         ).transform_filter(
             alt.datum.rank <= rownum
         ).mark_bar().encode(
-            x='counts',
+            x='Counts',
             y=alt.Y('Publisher', sort = '-x')
-        )
+        ).configure_title(fontSize=20)
     return chart.to_html()
 
 def global_market_share_plot(year):
@@ -120,7 +126,7 @@ def global_market_share_plot(year):
                 field="tag", type="nominal", legend=alt.Legend(title="Company")
             ),
             tooltip=["percent"],
-        )
+        ).configure_title(fontSize=20)
     )
     return plot.to_html()
 
@@ -144,7 +150,7 @@ def na_market_share_plot(year):
                 field="tag", type="nominal", legend=alt.Legend(title="Company")
             ),
             tooltip=["percent"],
-        )
+        ).configure_title(fontSize=20)
     )
     return plot.to_html()
 
@@ -155,20 +161,20 @@ def global_critic_score_plot(year):
         ["Critic_Score"]
     ].reset_index()
     score_year = score[score.iloc[:, 1] == year].rename(
-        columns={"Critic_Score": "Critic Score"}
+        columns={"Critic_Score": "Critic score"}
     )
     plot = (
         alt.Chart(score_year, title="Global Critic Scores")
         .transform_window(
-            rank="rank(Critic Score)",
-            sort=[alt.SortField("Critic Score", order="descending")],
+            rank="rank(Critic score)",
+            sort=[alt.SortField("Critic score", order="descending")],
         )
         .mark_bar()
         .encode(
             x=alt.X("Platform", sort="-y"),
-            y='Critic Score',
-            tooltip=["Critic Score"]
-        )
+            y='Critic score',
+            tooltip=["Critic score"]
+        ).configure_title(fontSize=20)
         .interactive()
     )
     return plot.to_html()
@@ -179,20 +185,20 @@ def global_user_score_plot(year):
         ["User_Score"]
     ].reset_index()
     score_year = score[score.iloc[:, 1] == year].rename(
-        columns={"User_Score": "User Score"}
+        columns={"User_Score": "User score"}
     )
     plot = (
         alt.Chart(score_year, title="Global User Scores")
         .transform_window(
-            rank="rank(User Score)",
-            sort=[alt.SortField("User Score", order="descending")],
+            rank="rank(User score)",
+            sort=[alt.SortField("User score", order="descending")],
         )
         .mark_bar()
         .encode(
             x=alt.X("Platform", sort="-y"),
-            y='User Score',
-            tooltip=["User Score"]
-        )
+            y='User score',
+            tooltip=["User score"]
+        ).configure_title(fontSize=20)
         .interactive()
     )
     return plot.to_html()
@@ -203,20 +209,20 @@ def na_critic_score_plot(year):
         ["Critic_Score"]
     ].reset_index()
     score_year = score[score.iloc[:, 1] == year].rename(
-        columns={"Critic_Score": "Critic Score"}
+        columns={"Critic_Score": "Critic score"}
     )
     plot = (
         alt.Chart(score_year, title="North America Critic Scores")
         .transform_window(
-            rank="rank(Critic Score)",
-            sort=[alt.SortField("Critic Score", order="descending")],
+            rank="rank(Critic score)",
+            sort=[alt.SortField("Critic score", order="descending")],
         )
         .mark_bar()
         .encode(
             x=alt.X("Platform", sort="-y"),
-            y='Critic Score',
-            tooltip=["Critic Score"]
-        )
+            y='Critic score',
+            tooltip=["Critic score"]
+        ).configure_title(fontSize=20)
         .interactive()
     )
     return plot.to_html()
@@ -226,20 +232,20 @@ def na_user_score_plot(year):
         ["User_Score"]
     ].reset_index()
     score_year = score[score.iloc[:, 1] == year].rename(
-        columns={"User_Score": "User Score"}
+        columns={"User_Score": "User score"}
     )
     plot = (
         alt.Chart(score_year, title="North America User Scores")
         .transform_window(
-            rank="rank(User Score)",
-            sort=[alt.SortField("User Score", order="descending")],
+            rank="rank(User score)",
+            sort=[alt.SortField("User score", order="descending")],
         )
         .mark_bar()
         .encode(
             x=alt.X("Platform", sort="-y"),
-            y='User Score',
-            tooltip=["User Score"]
-        )
+            y='User score',
+            tooltip=["User score"]
+        ).configure_title(fontSize=20)
         .interactive()
     )
     return plot.to_html()
@@ -300,16 +306,16 @@ sidebar = html.Div(
     ),
     dcc.Dropdown(
       id = "company",
-      options=[{'label': 'Xbox', 'value': 'xbox'},
-      {'label': 'PlayStation4', 'value': 'ps4'}],
-      value='ps4', multi=True),
+      options=[{'label': 'XBox', 'value': 'XBox'},
+      {'label': 'PlayStation4', 'value': 'PS4'}],
+      value='PS4', multi=True),
     html.Hr(),
     html.P(
       "Market Share Year", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
     ),
     dcc.Dropdown(
         id='market_share_year',
-        value=2013,  # REQUIRED to show the plot on the first page load
+        value=2016,  # REQUIRED to show the plot on the first page load
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
     html.P(
@@ -317,7 +323,7 @@ sidebar = html.Div(
     ),
     dcc.Dropdown(
         id='genre_year',
-        value=2013,  # REQUIRED to show the plot on the first page load
+        value=2016,  # REQUIRED to show the plot on the first page load
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
     html.P(
@@ -325,7 +331,7 @@ sidebar = html.Div(
     ),
     dcc.Dropdown(
         id='publisher_year',
-        value=2013,  # REQUIRED to show the plot on the first page load
+        value=2016,  # REQUIRED to show the plot on the first page load
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
     html.P(
@@ -333,7 +339,7 @@ sidebar = html.Div(
     ),
     dcc.Dropdown(
         id='critic_year',
-        value=2013,  # REQUIRED to show the plot on the first page load
+        value=2016,  # REQUIRED to show the plot on the first page load
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
     html.P(
@@ -341,7 +347,7 @@ sidebar = html.Div(
     ),
     dcc.Dropdown(
         id='user_year',
-        value=2013,  # REQUIRED to show the plot on the first page load
+        value=2016,  # REQUIRED to show the plot on the first page load
         options=[{'label': col, 'value': col} for col in range(2013, 2019)]),
     html.Hr(),
     html.P(f"""
@@ -410,10 +416,10 @@ content = html.Div([
         dbc.Col([dbc.Row([
           dbc.Col([html.Iframe(
                 id='na-critic-score',
-                style={'border-width': '0', 'width': '100%', 'height': '800px'})]),
+                style={'border-width': '0', 'width': '100%', 'height': '2000px'})]),
           dbc.Col([html.Iframe(
                 id='na-user-score',
-                style={'border-width': '0', 'width': '100%', 'height': '800px'})])])]), 
+                style={'border-width': '0', 'width': '100%', 'height': '2000px'})])])]), 
             ])]),
 
       dcc.Tab(label='Global', children=[
@@ -460,10 +466,10 @@ content = html.Div([
         dbc.Col([dbc.Row([
             dbc.Col([html.Iframe(
                 id='global-critic-score',
-                style={'border-width': '0', 'width': '100%', 'height': '800px'})]),
+                style={'border-width': '0', 'width': '100%', 'height': '2000px'})]),
             dbc.Col([html.Iframe(
                 id='global-user-score',
-                style={'border-width': '0', 'width': '100%', 'height': '800px'})])])]),
+                style={'border-width': '0', 'width': '100%', 'height': '2000px'})])])]),
         ])])])],
         id="page_content", style=CONTENT_STYLE)
 
