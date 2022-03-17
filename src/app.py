@@ -274,6 +274,7 @@ SIDEBAR_STYLE = {
   "width": "14rem",
   "padding": "2rem 1rem",
   "background-color": "#ADD8E6",
+  "overflow": "scroll"
 }
 
 # the styles for the main content position it to the right of the sidebar and
