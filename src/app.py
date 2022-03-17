@@ -295,7 +295,7 @@ CONTENT_STYLE = {
 
 sidebar = html.Div(
   [
-    html.H2("Video Game Sales Analytics App", className="display-4", style={'color': 'black', 'fontSize': 25, 'text-align':'center'}),
+    html.H2("Video Game Sales Analytics", className="display-4", style={'color': 'black', 'fontSize': 25, 'text-align':'center'}),
     html.Hr(),
     html.P(
       "A dashboard to analyze sales of major players in the video game industry", className="lead", 
@@ -354,7 +354,7 @@ sidebar = html.Div(
     html.P(f"""
         This dashboard was made by Amelia Tang, 
         Alex Yinan Guo, Yike Shi, and Mahmoodur Rahman.  
-        Last updated 2022-03-05.
+        Last updated 2022-03-18.
         License is in effect up to 
         {datetime.now().date()}.
         """, style={'color': 'black', 'fontSize': 12}  
@@ -417,10 +417,10 @@ content = html.Div([
         dbc.Col([dbc.Row([
           dbc.Col([html.Iframe(
                 id='na-critic-score',
-                style={'border-width': '0', 'width': '100%', 'height': '2000px'})]),
+                style={'border-width': '0', 'width': '100%', 'height': '500px'})]),
           dbc.Col([html.Iframe(
                 id='na-user-score',
-                style={'border-width': '0', 'width': '100%', 'height': '2000px'})])])]), 
+                style={'border-width': '0', 'width': '100%', 'height': '500px'})])])]), 
             ])]),
 
       dcc.Tab(label='Global', children=[
@@ -467,10 +467,10 @@ content = html.Div([
         dbc.Col([dbc.Row([
             dbc.Col([html.Iframe(
                 id='global-critic-score',
-                style={'border-width': '0', 'width': '100%', 'height': '2000px'})]),
+                style={'border-width': '0', 'width': '100%', 'height': '500px'})]),
             dbc.Col([html.Iframe(
                 id='global-user-score',
-                style={'border-width': '0', 'width': '100%', 'height': '2000px'})])])]),
+                style={'border-width': '0', 'width': '100%', 'height': '500px'})])])]),
         ])])])],
         id="page_content", style=CONTENT_STYLE)
 
