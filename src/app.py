@@ -11,6 +11,7 @@ import plotly.express as px
 import os
 import altair as alt
 import dash_bootstrap_components as dbc
+from dash.dependencies import Input, Output, State
 from datetime import datetime
 
 # ==============================================================================
@@ -278,7 +279,8 @@ SIDEBAR_STYLE = {
   "width": "14rem",
   "padding": "2rem 1rem",
   "background-color": "#ADD8E6",
-  "overflow": "scroll"
+  "overflow": "scroll",
+  "text-align":"center"
 }
 
 # the styles for the main content position it to the right of the sidebar and
@@ -305,6 +307,18 @@ sidebar = html.Div(
       "A dashboard to analyze sales of major players in the video game industry", className="lead", 
       style={'color': 'black', 'fontSize': 18, 'text-align':'center'} 
     ),
+    dbc.Collapse(
+        dbc.Card(dbc.CardBody("On the dashboard, you will find sales trend plots and market shares charts for North American and Global, top publishers and top genres for each year as well as users and critic scores for each year. ")),
+        id="collapse",
+        is_open=False,
+        ),
+    dbc.Button(
+            "Read more",
+            id="collapse-button",
+            className="mb-3",
+            color="secondary",
+            n_clicks=0,
+        ),
     html.Hr(),
     html.P(
       "Sales Trend Companies", style={'color': 'black', 'fontSize': 15, 'text-align':'center'} 
@@ -565,6 +579,17 @@ def global_user_score(year):
     Input('user_year', 'value'))
 def na_user_score(year):
     return na_user_score_plot(year)
+
+@app.callback(
+    Output("collapse", "is_open"),
+    [Input("collapse-button", "n_clicks")],
+    [State("collapse", "is_open")])
+    
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
 
 if __name__ == "__main__":
   app.run_server(debug=True)
