@@ -47,7 +47,7 @@ companies, PS4 and/or Xbox. In addition, a user can also use the drop
 down menus on the side bar to choose the year of top publishers, top
 genres, market share and average critic score he/she would like to view.
 At the bottom of the `Top Genre` and `Top Publisher` charts, a user can
-choose how many top genres or publishers he/she want to see from 5 to 9.
+choose how many top genres or publishers he/she wants to see from 5 to 9. The user can view each year's user score by adjusting the year on the sidebar.
 
 ## Future development
 
