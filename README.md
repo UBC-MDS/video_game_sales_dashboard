@@ -111,4 +111,4 @@ sales to examine the relationship between the two
 ## License
 
 `Video Game Sales Analytics` dashboard is licensed under the
-terms of the MIT license.
+terms of [the MIT license](https://github.com/UBC-MDS/video_game_sales_dashboard/blob/main/LICENSE).
